@@ -18,6 +18,7 @@ angular.module('mainController', ['authServices'])
             app.home = true;
         }
 
+        console.log(app.home);
 
         if(auth.isLoggedIn()) {
 
@@ -25,9 +26,8 @@ angular.module('mainController', ['authServices'])
             app.isLoggedIn = true;
             auth.getUser().then(function (data){
                 //console.log(data);
-                app.name = data.data.name;
+                app.firstName = data.data.firstName;
                 app.email = data.data.email;
-                app.username = data.data.username;
                 user.getPermission().then(function (data) {
                     if(data.data.permission === 'admin') {
                         app.authorized = true;
@@ -68,7 +68,7 @@ angular.module('mainController', ['authServices'])
                 app.successMsg = data.data.message + ' Redirecting to home page...';
                 $timeout(function () {
                     $location.path('/');
-                    app.logData = '';
+                    app.logData = {};
                     app.successMsg = false;
                 }, 2000);
 

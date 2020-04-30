@@ -112,7 +112,7 @@ app.run(['$rootScope','auth','$location', 'user', function ($rootScope,auth,$loc
 
                 if(auth.isLoggedIn()) {
                     event.preventDefault();
-                    $location.path('/register');
+                    $location.path('/');
                 }
 
             } /*else {

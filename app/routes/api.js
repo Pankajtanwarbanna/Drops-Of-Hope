@@ -111,14 +111,14 @@ module.exports = function (router){
     // User login API
     router.post('/authenticate', function (req,res) {
 
-        if(!req.body.username || !req.body.password) {
+        if(!req.body.email || !req.body.password) {
             res.json({
                 success : false,
                 message : 'Ensure you fill all the entries.'
             });
         } else {
 
-            User.findOne({ username : req.body.username }).select('email username password active').exec(function (err, user) {
+            User.findOne({ email : req.body.email }).select('email firstName lastName password active').exec(function (err, user) {
 
                 if(err) throw err;
 
@@ -141,8 +141,7 @@ module.exports = function (router){
 
                         if (validPassword) {
                             var token = jwt.sign({
-                                email: user.email,
-                                username: user.username
+                                email: user.email
                             }, secret, {expiresIn: '24h'});
                             res.json({
                                 success: true,
@@ -318,55 +317,6 @@ module.exports = function (router){
 
     });
 
-    // Forgot username route
-    router.post('/forgotUsername', function (req,res) {
-
-        if(!req.body.email) {
-            res.json({
-                success : false,
-                message : 'Please ensure you fill all the entries.'
-            });
-        } else {
-            User.findOne({email : req.body.email}).select('username email name').exec(function (err,user) {
-                if(err) throw err;
-
-                if(!user) {
-                    res.json({
-                        success : false,
-                        message : 'Email is not registered with us.'
-                    });
-                } else if(user) {
-
-                    var email = {
-                        from: 'DropsOfHope, support@dropsofhope.com',
-                        to: user.email,
-                        subject: 'Forgot Username Request',
-                        text: 'Hello '+ user.name + 'You requested for your username.You username is ' + user.username + 'Thank you Team CEO, DropsOfHope',
-                        html: 'Hello <strong>'+ user.name + '</strong>,<br><br>You requested for your username.You username is <strong>'+ user.username + '</strong><br><br>Thank you<br>Team<br>CEO, DropsOfHope'
-                    };
-
-                    client.sendMail(email, function(err, info){
-                        if (err ){
-                            console.log(err);
-                        }
-                        else {
-                            console.log('Message sent: ' + info.response);
-                        }
-                    });
-
-                    res.json({
-                        success : true,
-                        message : 'Username has been successfully sent to your email.'
-                    });
-                } else {
-                    res.send(user);
-                }
-
-            });
-        }
-
-    });
-
     // Send link to email id for reset password
     router.put('/forgotPasswordLink', function (req,res) {
 
@@ -390,8 +340,7 @@ module.exports = function (router){
                     console.log(user.temporarytoken);
 
                     user.temporarytoken = jwt.sign({
-                        email: user.email,
-                        username: user.username
+                        email: user.email
                     }, secret, {expiresIn: '24h'});
 
                     console.log(user.temporarytoken);
@@ -467,8 +416,6 @@ module.exports = function (router){
 
     // route to reset password
     router.put('/resetPassword/:token', function (req,res) {
-
-        console.log('api is working fine');
 
         if(!req.body.password) {
             res.json({
@@ -561,7 +508,7 @@ module.exports = function (router){
 
         //console.log(req.decoded.email);
         // getting profile of user from database using email, saved in the token in localStorage
-        User.findOne({ email : req.decoded.email }).select('email username name').exec(function (err, user) {
+        User.findOne({ email : req.decoded.email }).select('email firstName').exec(function (err, user) {
             if(err) throw err;
 
             if(!user) {
@@ -575,7 +522,7 @@ module.exports = function (router){
     // get permission of user
     router.get('/permission', function (req,res) {
 
-        User.findOne({ username : req.decoded.username }).select('permission').exec(function (err,user) {
+        User.findOne({ email : req.decoded.email }).select('permission').exec(function (err,user) {
 
             if(err) throw err;
 
