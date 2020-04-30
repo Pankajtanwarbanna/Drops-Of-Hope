@@ -17,7 +17,7 @@ app.use(express.static(__dirname + '/public'));
 app.use('/api', apiRoutes);
 
 // connecting to mongo database
-mongoose.connect('mongodb://localhost:27017/drops-of-hope', { useNewUrlParser: true }, function (err) {
+mongoose.connect('mongodb://localhost:27017/drops-of-hope', { useNewUrlParser: true, useUnifiedTopology: true  }, function (err) {
     if(err) {
         console.log(err);
     } else {

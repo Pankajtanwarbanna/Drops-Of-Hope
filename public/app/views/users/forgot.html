@@ -1,37 +1,39 @@
-<div>
+<section class="section">
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4">
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h4>Forgot Password ?</h4>
+                    </div>
+                    <div class="card-body">
+                        <p class="text-muted">We will send a link to reset your password</p>
+                        <form method="POST">
+                            <div class="form-group">
+                                <label for="email">Email</label>
+                                <input id="email" type="email" class="form-control" name="email" tabindex="1" required autofocus>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary btn-lg btn-block" tabindex="4">
+                                    Forgot Password
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!--<div>
     <h1 class="text-center">
         Forgot something?
     </h1>
 </div>
 
 <div class="row about">
-    <div class="col-sm-6">
-        <p class="text-center">Forgot Username ?</p>
-
-        <br>
-        <form ng-submit="forgot.forgotUsername(logData)">
-            <label>Enter Email :</label>
-            <br>
-            <input ng-disabled="forgot.disabledUsername" class="form-control" type="email" placeholder="Enter email" ng-model="forgot.logData.email" required>
-            <br>
-            <button ng-disabled="forgot.disabledUsername" class="btn btn-primary">Submit</button>
-        </form>
-
-        <br>
-        <div class="row show-hide-message">
-            <div class="alert alert-success" ng-show="forgot.successMsgUsername">
-                <strong> Success! </strong> {{ forgot.successMsgUsername  }}
-            </div>
-        </div>
-
-        <div class="row show-hide-message">
-            <div class="alert alert-danger" ng-show="forgot.errorMsgUsername">
-                <strong> Oops! </strong> {{ forgot.errorMsgUsername  }}
-            </div>
-        </div>
-
-    </div>
-    <div class="col-sm-6">
+    <div class="col-sm-12">
         <p class="text-center">Forgot Password ?</p>
 
         <br>
@@ -57,6 +59,6 @@
         </div>
 
     </div>
-</div>
+</div>-->
 
 

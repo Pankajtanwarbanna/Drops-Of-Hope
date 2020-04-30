@@ -9,13 +9,15 @@ angular.module('userCtrl',['userServices'])
 
     this.regUser = function (regData) {
 
+        console.log(app.regData);
+
         app.successMsg = '';
         app.errorMsg = '';
         app.loading = true;
 
         user.create(app.regData).then(function (data) {
 
-            //console.log(data);
+            console.log(data);
             if(data.data.success) {
                 app.loading = false;
                 app.successMsg = data.data.message + ' Redirecting to home page...';

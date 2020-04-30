@@ -1,4 +1,68 @@
-<div class="row">
+<section class="section">
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-8 offset-lg-2 col-xl-8 offset-xl-2">
+                <div class="card card-primary">
+                    <div class="card-header">
+                        <h4>Register</h4>
+                    </div>
+                    <div class="card-body">
+                        <form ng-submit="register.regUser(regData);">
+                            <div class="row">
+                                <div class="form-group col-6">
+                                    <label>First Name</label>
+                                    <input type="text" class="form-control" ng-model="register.regData.firstName" required>
+                                </div>
+                                <div class="form-group col-6">
+                                    <label>Last Name</label>
+                                    <input type="text" class="form-control" ng-model="register.regData.lastName" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>Email</label>
+                                <input type="email" class="form-control" ng-model="register.regData.email" required>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col-6">
+                                    <label class="d-block">Password</label>
+                                    <input type="password" class="form-control" name="password" ng-model="register.regData.password" required>
+                                </div>
+                                <div class="form-group col-6">
+                                    <label class="d-block">Password Confirmation</label>
+                                    <input type="password" class="form-control" ng-model="register.regData.confirmPassword" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <div class="custom-control custom-checkbox">
+                                    <input type="checkbox" name="agree" class="custom-control-input" id="agree">
+                                    <label class="custom-control-label" for="agree">I agree with the terms and conditions</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <button type="submit" class="btn btn-primary btn-lg btn-block">
+                                    Register
+                                </button>
+                            </div>
+                        </form>
+                        <div class="alert alert-success" ng-show="register.successMsg">
+                            {{ register.successMsg }}
+                        </div>
+                        <div class="alert alert-danger" ng-show="register.errorMsg">
+                            {{ register.errorMsg }}
+                        </div>
+                    </div>
+                    <div class="mb-4 text-muted text-center">
+                        Already Registered? <a href="/login">Login</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+<!--<div class="row">
     <div class="col-sm-6">
             <div>
                 <h1 class="text-center">
@@ -90,4 +154,4 @@
             </div>
         </div>
     </div>
-</div>
+</div>-->

@@ -10,6 +10,11 @@ var app = angular.module('userRoutes', ['ngRoute'])
                 authenticated : false
             })
 
+            .when('/login', {
+                templateUrl : '/app/views/users/login.html',
+                authenticated : false
+            })
+
             .when('/logout', {
                 templateUrl : '/app/views/users/logout.html',
                 authenticated : false,
@@ -20,21 +25,6 @@ var app = angular.module('userRoutes', ['ngRoute'])
             .when('/users/:username', {
                 templateUrl : '/app/views/users/userProfile.html',
                 authenticated : true
-            })
-
-            .when('/about', {
-                templateUrl : '/app/views/pages/about.html',
-                authenticated : false
-            })
-
-            .when('/contact', {
-                templateUrl : '/app/views/pages/contact.html',
-                authenticated : false
-            })
-
-            .when('/services', {
-                templateUrl : '/app/views/pages/services.html',
-                authenticated : false
             })
 
             .when('/activate/:token', {

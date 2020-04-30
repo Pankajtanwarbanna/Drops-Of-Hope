@@ -22,14 +22,14 @@ module.exports = function (router){
     router.post('/register',function (req, res) {
         var user = new User();
 
-        user.name = req.body.name;
-        user.username = req.body.username;
+        user.firstName = req.body.firstName;
+        user.lastName = req.body.lastName;
         user.email = req.body.email;
         user.password = req.body.password;
-        user.temporarytoken = jwt.sign({ email : user.email , username : user.username }, secret , { expiresIn : '24h' });
+        user.temporarytoken = jwt.sign({ email : user.email }, secret , { expiresIn : '24h' });
 
         //console.log(req.body);
-        if(!user.name || !user.email || !user.password || !user.username) {
+        if(!user.firstName  || !user.lastName || !user.email || !user.password) {
             res.json({
                 success : false,
                 message : 'Ensure you filled all entries!'
@@ -39,12 +39,7 @@ module.exports = function (router){
                 if(err) {
                     if(err.errors != null) {
                         // validation errors
-                        if(err.errors.name) {
-                            res.json({
-                                success: false,
-                                message: err.errors.name.message
-                            });
-                        } else if (err.errors.email) {
+                        if (err.errors.email) {
                             res.json({
                                 success : false,
                                 message : err.errors.email.message
@@ -69,12 +64,7 @@ module.exports = function (router){
                                     success: false,
                                     message: 'Email is already registered.'
                                 });
-                            } else if(err.errmsg[57] === 'u') {
-                                res.json({
-                                    success : false,
-                                    message : 'Username is already registered.'
-                                });
-                            } else {
+                            }  else {
                                 res.json({
                                     success : false,
                                     message : err
@@ -94,22 +84,24 @@ module.exports = function (router){
                         to: user.email,
                         subject: 'Activation Link - DropsOfHope Registration',
                         text: 'Hello '+ user.name + 'Thank you for registering with us.Please find the below activation link Activation link Thank you Team CEO, DropsOfHope',
-                        html: 'Hello <strong>'+ user.name + '</strong>,<br><br>Thank you for registering with us.Please find the below activation link<br><br><a href="http://localhost:8080/activate/'+ user.temporarytoken+'">Activation link</a><br><br>Thank you<br>Team DropsOfHope'
+                        html: 'Hello <strong>'+ user.name + '</strong>,<br><br>Thank you for registering with us.Please find the below activation link<br><br><a href="http://localhost:8000/activate/'+ user.temporarytoken+'">Activation link</a><br><br>Thank you<br>Team DropsOfHope'
                     };
 
                     client.sendMail(email, function(err, info){
                         if (err ){
                             console.log(err);
+                            res.json({
+                                success : true,
+                                message : 'Account created but email could not be send as email server is not responding. Contact Admin!'
+                            })
                         }
                         else {
                             console.log('Message sent: ' + info.response);
+                            res.json({
+                                success : true,
+                                message : 'Account registered! Please check your E-mail inbox for the activation link.'
+                            });
                         }
-                    });
-
-
-                    res.json({
-                        success : true,
-                        message : 'Account registered! Please check your E-mail inbox for the activation link.'
                     });
                 }
             });

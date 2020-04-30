@@ -1,35 +1,21 @@
-var mongoose = require('mongoose');
-var bcrypt = require('bcrypt-nodejs');
-var titlize = require('mongoose-title-case');
-var validate = require('mongoose-validator');
+let mongoose = require('mongoose');
+let bcrypt = require('bcrypt-nodejs');
+let titlize = require('mongoose-title-case');
+let validate = require('mongoose-validator');
 mongoose.set('useCreateIndex', true);
 
-// Backend mongoose validators
-var nameValidator = [
-    validate({
-        validator: 'matches',
-        arguments: /^(([a-zA-Z]{3,10})+[ ]+([a-zA-Z]{3,10})+)+$/,
-        message : 'Name must have minimum 3 and maximum 20 character, Space in between the name, No special letters or numbers!'
-    }),
-    validate({
-        validator: 'isLength',
-        arguments: [3,20],
-        message: 'Name should be between {ARGS[0]} and {ARGS[1]} characters'
-    })
-];
-
-var emailValidator = [
+let emailValidator = [
     validate({
         validator: 'isEmail',
         message : 'Please type a valid email.'
     }),
 ];
 
-var passwordValidator = [
+let passwordValidator = [
     validate({
         validator: 'matches',
-        arguments: /^(?=.*?[a-z])(?=.*[A-Z])(?=.*[\d])(?=.*[\W]).{8,25}$/,
-        message : 'Password must have one lowercase, one uppercase, one special character, one number and minimum 8 and maximum 25 character'
+        arguments: /^(?=.*[\d])(?=.*[\W]).{8,25}$/,
+        message : 'Your password is weak! Password must have one special character, one number and minimum 8 and maximum 25 character'
     }),
     validate({
         validator: 'isLength',
@@ -38,16 +24,14 @@ var passwordValidator = [
     })
 ];
 
-var userSchema = new mongoose.Schema({
-    name : {
+let userSchema = new mongoose.Schema({
+    firstName : {
         type : String,
-        required : true,
-        validate: nameValidator
+        required : true
     },
-    username : {
+    lastName : {
         type : String,
-        required : true,
-        unique : true
+        required : true
     },
     email : {
         type : String,
@@ -79,7 +63,7 @@ var userSchema = new mongoose.Schema({
 
 userSchema.pre('save', function (next) {
 
-    var user = this;
+    let user = this;
 
     if(!user.isModified('password')) return next();
 
@@ -97,7 +81,7 @@ userSchema.pre('save', function (next) {
 
 // Mongoose title case plugin
 userSchema.plugin(titlize, {
-    paths: [ 'name' , 'location'], // Array of paths
+    paths: [ 'firstName','lastName'], // Array of paths
 });
 
 // Password compare method
