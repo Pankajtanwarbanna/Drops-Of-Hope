@@ -1,6 +1,3 @@
-/*
-    Services written by - Pankaj tanwar
-*/
 angular.module('authServices',[])
 
 .factory('auth', function ($http, authToken) {

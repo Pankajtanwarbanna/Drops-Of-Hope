@@ -8,10 +8,10 @@ var router = express.Router();
 var apiRoutes = require('./app/routes/api')(router);
 
 app.use(morgan('dev'));
-// parse application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: false }));
-// parse application/json
+
 app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
+
 app.use(express.static(__dirname + '/public'));
 // diff. front end and backend routes
 app.use('/api', apiRoutes);

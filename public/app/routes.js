@@ -17,9 +17,14 @@ var app = angular.module('userRoutes', ['ngRoute'])
 
             .when('/logout', {
                 templateUrl : '/app/views/users/logout.html',
-                authenticated : false,
+                authenticated : true,
                 controller : 'editCtrl',
                 controllerAs : 'edit'
+            })
+
+            .when('/profile', {
+                templateUrl : '/app/views/users/profile.html',
+                authenticated : false
             })
 
             .when('/users/:username', {
@@ -107,7 +112,7 @@ app.run(['$rootScope','auth','$location', 'user', function ($rootScope,auth,$loc
 
                 if(auth.isLoggedIn()) {
                     event.preventDefault();
-                    $location.path('/profile');
+                    $location.path('/register');
                 }
 
             } /*else {

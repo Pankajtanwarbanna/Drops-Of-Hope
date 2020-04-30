@@ -1,7 +1,3 @@
-/*
-    Controller written by - Pankaj tanwar
-*/
-
 angular.module('mainController', ['authServices'])
 
 .controller('mainCtrl', function ($window,$http, auth, $timeout, $location, authToken, $rootScope, user) {
@@ -56,7 +52,7 @@ angular.module('mainController', ['authServices'])
 
 
     this.doLogin = function (logData) {
-        //console.log(this.logData);
+        console.log(this.logData);
         app.successMsg = '';
         app.errorMsg = '';
         app.loading = true;
