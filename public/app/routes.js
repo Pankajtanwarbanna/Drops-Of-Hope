@@ -76,6 +76,15 @@ var app = angular.module('userRoutes', ['ngRoute'])
                 permission : 'admin'
             })
 
+            .when('/gallery-photos',{
+                templateUrl:'app/views/pages/blog.html',
+                authenticated:true,
+            })
+
+            .when('/all-blood-requests',{
+                templateUrl:'app/views/pages/all-blood-requests.html',
+                authenticated:true,
+            })
 
             .otherwise( { redirectTo : '/'});
 
