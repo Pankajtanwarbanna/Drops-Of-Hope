@@ -94,6 +94,8 @@ var app = angular.module('userRoutes', ['ngRoute'])
 
             .when('/post-request',{
                 templateUrl : 'app/views/blood-request/post-request.html',
+                controller : 'bloodRequestCtrl',
+                controllerAs : 'bloodRequest',
                 authenticated:true,
             })
 

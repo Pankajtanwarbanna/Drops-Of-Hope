@@ -2,6 +2,7 @@
     API written by - Team
 */
 var User = require('../models/user');
+var BloodRequest = require('../models/bloodRequest');
 var jwt = require('jsonwebtoken');
 var secret = 'zulu';
 var nodemailer = require('nodemailer');
@@ -860,6 +861,25 @@ module.exports = function (router){
                 }
             }
         });
+    });
+
+    router.post('/bloodrequest',function (req, res) {
+        var bloodRequest = new BloodRequest();
+
+        bloodRequest.patientName = req.body.patientName;
+        bloodRequest.patientAge = req.body.patientAge;
+        bloodRequest.patientGender = req.body.patientGender;
+        bloodRequest.patientMobile = req.body.patientMobile;
+        bloodRequest.requiredDate = req.body.requiredDate;
+        bloodRequest.bloodGroup = req.body.bloodGroup;
+        bloodRequest.condition = req.body.condition;
+        bloodRequest.unitsRequired = req.body.unitsRequired;
+        bloodRequest.hospitalAddress = req.body.hospitalAddress;
+        bloodRequest.hospitalName = req.body.hospitalName;
+        bloodRequest.purpose = req.body.purpose;
+
+        console.log(req.body);
+
     });
 
     return router;
