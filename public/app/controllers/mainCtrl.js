@@ -18,8 +18,6 @@ angular.module('mainController', ['authServices'])
             app.home = true;
         }
 
-        console.log(app.home);
-
         if(auth.isLoggedIn()) {
 
             //console.log('User is logged in.');

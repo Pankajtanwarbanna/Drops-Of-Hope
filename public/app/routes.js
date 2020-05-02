@@ -76,13 +76,24 @@ var app = angular.module('userRoutes', ['ngRoute'])
                 permission : 'admin'
             })
 
-            .when('/gallery-photos',{
-                templateUrl:'app/views/pages/blog.html',
+            .when('/photos',{
+                templateUrl:'app/views/gallery/photos.html',
                 authenticated:true,
             })
 
+            .when('/videos',{
+                templateUrl:'app/views/gallery/videos.html',
+                authenticated:true,
+            })
+
+            // Blood Requests Routes
             .when('/all-blood-requests',{
-                templateUrl:'app/views/pages/all-blood-requests.html',
+                templateUrl : 'app/views/blood-request/all-blood-requests.html',
+                authenticated:true,
+            })
+
+            .when('/post-request',{
+                templateUrl : 'app/views/blood-request/post-request.html',
                 authenticated:true,
             })
 
