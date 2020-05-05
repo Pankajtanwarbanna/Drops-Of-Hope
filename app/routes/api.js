@@ -1,27 +1,28 @@
 /*
-    API written by - Team
+    API written by - Team Jagriti & Pankaj
 */
-var User = require('../models/user');
-var BloodRequest = require('../models/bloodRequest');
-var jwt = require('jsonwebtoken');
-var secret = 'zulu';
-var nodemailer = require('nodemailer');
-var sgTransport = require('nodemailer-sendgrid-transport');
+let User = require('../models/user');
+let BloodRequest = require('../models/bloodRequest');
+let auth = require('../auth/authUtils');
+let jwt = require('jsonwebtoken');
+let secret = 'zulu';
+let nodemailer = require('nodemailer');
+let sgTransport = require('nodemailer-sendgrid-transport');
 
 module.exports = function (router){
 
     // Nodemailer-sandgrid stuff
-    var options = {
+    let options = {
         auth: {
             api_key: 'YOUR_API_KEY'
         }
     };
 
-    var client = nodemailer.createTransport(sgTransport(options));
+    let client = nodemailer.createTransport(sgTransport(options));
 
     // User register API
     router.post('/register',function (req, res) {
-        var user = new User();
+        let user = new User();
 
         user.firstName = req.body.firstName;
         user.lastName = req.body.lastName;
@@ -80,7 +81,7 @@ module.exports = function (router){
                     }
                 } else {
 
-                    var email = {
+                    let email = {
                         from: 'DropsOfHope Registration, support@dropsofhope.com',
                         to: user.email,
                         subject: 'Activation Link - DropsOfHope Registration',
@@ -138,10 +139,10 @@ module.exports = function (router){
                         });
                     } else {
 
-                        var validPassword = user.comparePassword(req.body.password);
+                        let validPassword = user.comparePassword(req.body.password);
 
                         if (validPassword) {
-                            var token = jwt.sign({
+                            let token = jwt.sign({
                                 email: user.email
                             }, secret, {expiresIn: '24h'});
                             res.json({
@@ -174,7 +175,7 @@ module.exports = function (router){
             User.findOne({temporarytoken: req.params.token}, function (err, user) {
                 if (err) throw err;
 
-                var token = req.params.token;
+                let token = req.params.token;
 
                 jwt.verify(token, secret, function (err, decoded) {
                     if (err) {
@@ -198,7 +199,7 @@ module.exports = function (router){
                                 console.log(err);
                             } else {
 
-                                var email = {
+                                let email = {
                                     from: 'DropsOfHope Registration, support@dropsofhope.com',
                                     to: user.email,
                                     subject: 'Activation activated',
@@ -253,7 +254,7 @@ module.exports = function (router){
                         });
                     } else {
 
-                        var validPassword = user.comparePassword(req.body.password);
+                        let validPassword = user.comparePassword(req.body.password);
 
                         if(!validPassword) {
                             res.json({
@@ -289,7 +290,7 @@ module.exports = function (router){
                     console.log(err);
                 } else {
 
-                    var email = {
+                    let email = {
                         from: 'DropsOfHope Registration, support@dropsofhope.com',
                         to: user.email,
                         subject: 'Activation Link request - DropsOfHope Registration',
@@ -314,8 +315,6 @@ module.exports = function (router){
                 }
             })
         });
-
-
     });
 
     // Send link to email id for reset password
@@ -354,7 +353,7 @@ module.exports = function (router){
                             })
                         } else {
 
-                            var email = {
+                            let email = {
                                 from: 'DropsOfHope Registration, support@dropsofhope.com',
                                 to: user.email,
                                 subject: 'Forgot Password Request',
@@ -447,7 +446,7 @@ module.exports = function (router){
                             });
                         } else {
 
-                            var email = {
+                            let email = {
                                 from: 'DropsOfHope, support@dropsofhope.com',
                                 to: user.email,
                                 subject: 'Password reset',
@@ -479,7 +478,7 @@ module.exports = function (router){
     // Middleware to verify token
     router.use(function (req,res,next) {
 
-        var token = req.body.token || req.body.query || req.headers['x-access-token'];
+        let token = req.body.token || req.body.query || req.headers['x-access-token'];
 
         if(token) {
             // verify token
@@ -576,7 +575,7 @@ module.exports = function (router){
     // delete a user form database
     router.delete('/management/:username', function (req,res) {
 
-        var deletedUser = req.params.username;
+        let deletedUser = req.params.username;
 
         User.findOne({ username : req.decoded.username }, function (err,mainUser) {
 
@@ -608,7 +607,7 @@ module.exports = function (router){
 
     // route to edit user
     router.get('/edit/:id', function (req,res) {
-        var editedUser = req.params.id;
+        let editedUser = req.params.id;
 
         User.findOne({ username : req.decoded.username }, function (err,mainUser) {
             if(err) throw err;
@@ -652,19 +651,19 @@ module.exports = function (router){
     // update user details
     router.put('/edit', function (req,res) {
 
-        var editedUser = req.body._id;
+        let editedUser = req.body._id;
 
         if(req.body.name) {
-            var newName = req.body.name;
+            let newName = req.body.name;
         }
         if(req.body.username) {
-            var newUsername = req.body.username;
+            let newUsername = req.body.username;
         }
         if(req.body.email) {
-            var newEmail = req.body.email;
+            let newEmail = req.body.email;
         }
         if(req.body.permission) {
-            var newPermission = req.body.permission;
+            let newPermission = req.body.permission;
         }
 
         User.findOne({ username : req.decoded.username }, function (err,mainUser) {
@@ -864,8 +863,10 @@ module.exports = function (router){
     });
 
     //Post Blood Request
-    router.post('/bloodrequest',function (req, res) {
-        var bloodRequest = new BloodRequest();
+    router.post('/postBloodRequest', auth.ensureLoggedIn , function (req, res) {
+
+        // new Blood Request obj
+        let bloodRequest = new BloodRequest();
 
         bloodRequest.patientName = req.body.patientName;
         bloodRequest.patientAge = req.body.patientAge;
@@ -875,12 +876,67 @@ module.exports = function (router){
         bloodRequest.bloodGroup = req.body.bloodGroup;
         bloodRequest.condition = req.body.condition;
         bloodRequest.unitsRequired = req.body.unitsRequired;
-        bloodRequest.hospitalAddress = req.body.hospitalAddress;
         bloodRequest.hospitalName = req.body.hospitalName;
+        bloodRequest.hospitalAddress = req.body.hospitalAddress;
         bloodRequest.purpose = req.body.purpose;
+        bloodRequest.requestedBy = req.decoded.email;
+        bloodRequest.timestamp = new Date();
 
-        console.log(req.body);
+        bloodRequest.save(function (err) {
+            if(err) {
+                if(err.errors != null) {
+                    // validation errors
+                    if (err.errors.patientMobile) {
+                        res.json({
+                            success : false,
+                            message : err.errors.patientMobile.message
+                        });
+                    } else if(err.errors.purpose) {
+                        res.json({
+                            success : false,
+                            message : err.errors.purpose.message
+                        });
+                    } else {
+                        res.json({
+                            success: false,
+                            message: err
+                        });
+                    }
+                } else {
+                    res.json({
+                        success: false,
+                        message: 'Something went wrong!'
+                    })
+                }
+            } else {
+                res.json({
+                    success : true,
+                    message : 'Blood request successfully posted.'
+                })
+            }
+        });
+    });
 
+    // Route to get all blood requests
+    router.get('/getAllBloodRequests', auth.ensureLoggedIn, function (req, res) {
+        BloodRequest.find({ }, function (err, bloodRequests) {
+            if(err) {
+                res.json({
+                    success : false,
+                    message : 'Something went wrong!'
+                })
+            } else if(!bloodRequests) {
+                res.json({
+                    success : false,
+                    message : 'Blood requests not found.'
+                })
+            } else {
+                res.json({
+                    success : true,
+                    bloodRequests : bloodRequests
+                })
+            }
+        })
     });
 
     return router;

@@ -39,6 +39,11 @@ let userSchema = new mongoose.Schema({
         required : true,
         validate : emailValidator
     },
+    profile_url : {
+        type : String,
+        required : true,
+        default : 'default_profile.jpg'
+    },
     password : {
         type : String,
         required : true,

@@ -37,7 +37,7 @@ let bloodRequestSchema = new mongoose.Schema({
         required : true
     },
     requiredDate : {
-        type : String,
+        type : Date,
         required : true
     },
     unitsRequired : {
@@ -61,8 +61,15 @@ let bloodRequestSchema = new mongoose.Schema({
     purpose : {
         type : String,
         validate : purposeValidator
+    },
+    requestedBy : {
+        type : String,
+        required : true
+    },
+    timestamp : {
+        type : Date,
+        required : true
     }
-
 });
 
 

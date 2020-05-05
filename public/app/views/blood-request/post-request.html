@@ -12,36 +12,22 @@
                         <div class="card-header">
                             <h4>Request Blood</h4>
                         </div>
-                        <div class="form" ng-submit="bloodRequest.reqData(requestData);">
+                        <form class="form" ng-submit="bloodRequest.postBloodRequest(requestData);">
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-12 col-md-4 col-lg-4">
                                         <div class="form-group">
                                             <label>Patient's Full Name</label>
-                                            <input class="form-control" placeholder="Enter Name" ng-model="register.requestData.patientName" required>
+                                            <input class="form-control" placeholder="Enter Name" ng-model="bloodRequest.requestData.patientName" required>
                                         </div>
                                     </div>
                                     <div class="col-12 col-md-4 col-lg-4">
                                         <div class="form-group">
                                             <div class="form-group">
                                                 <label>Blood Group</label>
-                                                <select class="form-control">
-                                                    <option>A+</option>
-                                                    <option>A-</option>
-                                                    <option>B+</option>
-                                                    <option>B-</option>
-                                                    <option>AB+</option>
-                                                    <option>AB-</option>
-                                                    <option>A1+</option>
-                                                    <option>A1-</option>
-                                                    <option>A1B+</option>
-                                                    <option>A1B-</option>
-                                                    <option>A2+</option>
-                                                    <option>A2-</option>
-                                                    <option>A2B+</option>
-                                                    <option>A2B-</option>
-                                                    <option>O+</option>
-                                                    <option>O-</option>
+                                                <select class="form-control" ng-model="bloodRequest.requestData.bloodGroup" required>
+                                                    <option value="">-- Select Blood Group --</option>
+                                                    <option ng-repeat="bloodGroup in bloodRequest.bloodGroups" value="bloodGroup">{{ bloodGroup }}</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -49,7 +35,7 @@
                                     <div class="col-12 col-md-4 col-lg-4">
                                         <div class="form-group">
                                             <label>Patient's Age</label>
-                                            <input class="form-control" placeholder="Enter Age">
+                                            <input class="form-control" placeholder="Enter Age" ng-model="bloodRequest.requestData.patientAge" required>
                                         </div>
                                     </div>
                                 </div>
@@ -57,27 +43,29 @@
                                     <div class="col-12 col-md-4 col-lg-4">
                                         <div class="form-group">
                                             <label>Is the Condition Critical ?</label>
-                                            <select class="form-control">
-                                                <option>Yes</option>
-                                                <option>No</option>
+                                            <select class="form-control" ng-model="bloodRequest.requestData.condition" required>
+                                                <option value=""> -- Select Condition --</option>
+                                                <option value="Yes">Yes</option>
+                                                <option value="No">No</option>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="col-12 col-md-4 col-lg-4">
                                         <div class="form-group">
                                             <label>If No then When do you need it ?</label>
-                                            <input class="form-control" placeholder="Enter the Date ( DD/MM/YY )">
+                                            <input type="date" class="form-control" placeholder="Enter the Date ( DD/MM/YY )" ng-model="bloodRequest.requestData.requiredDate" required>
                                         </div>
                                     </div>
                                     <div class="col-12 col-md-4 col-lg-4">
                                         <div class="form-group">
                                             <label>Units of Blood Required</label>
-                                            <select class="form-control">
-                                                <option>1</option>
-                                                <option>2</option>
-                                                <option>3</option>
-                                                <option>4</option>
-                                                <option>5</option>
+                                            <select class="form-control" ng-model="bloodRequest.requestData.unitsRequired" required>
+                                                <option value="">-- Select Units --</option>
+                                                <option value="1">1</option>
+                                                <option value="2">2</option>
+                                                <option value="3">3</option>
+                                                <option value="4">4</option>
+                                                <option value="5">5</option>
                                             </select>
                                         </div>
                                     </div>
@@ -86,22 +74,23 @@
                                     <div class="col-12 col-md-4 col-lg-4">
                                         <div class="form-group">
                                             <label>Gender</label>
-                                            <select class="form-control">
-                                                <option>Male</option>
-                                                <option>Female</option>
+                                            <select class="form-control" ng-model="bloodRequest.requestData.patientGender" required>
+                                                <option value="">-- Select Gender -- </option>
+                                                <option value="Male">Male</option>
+                                                <option value="Female">Female</option>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="col-12 col-md-4 col-lg-4">
                                         <div class="form-group">
                                             <label>Patient's Mobile Number</label>
-                                            <input class="form-control" placeholder="Enter Patient's Contact Number">
+                                            <input type="text" class="form-control" placeholder="Enter Patient's Contact Number" ng-model="bloodRequest.requestData.patientMobile" required>
                                         </div>
                                     </div>
                                     <div class="col-12 col-md-4 col-lg-4">
                                         <div class="form-group">
                                             <label>Name of the Hospital</label>
-                                            <input class="form-control">
+                                            <input type="text" class="form-control" placeholder="Enter Hospital Name" ng-model="bloodRequest.requestData.hospitalName" required>
                                         </div>
                                     </div>
                                 </div>
@@ -109,18 +98,33 @@
                                     <div class="col-12 col-md-6 col-lg-6">
                                         <div class="form-group">
                                             <label>Hospital's Address</label>
-                                            <input style="height: 100px" class="form-control" placeholder="Enter the address of the hospital">
+                                            <textarea type="text" class="form-control" placeholder="Enter the address of the hospital" ng-model="bloodRequest.requestData.hospitalAddress" required></textarea>
                                         </div>
                                     </div>
                                     <div class="col-12 col-md-6 col-lg-6">
                                         <div class="form-group">
                                             <label>Purpose</label>
-                                            <input style="height: 100px" class="form-control" placeholder="Why do you need blood ?">
+                                            <textarea type="text" class="form-control" placeholder="Why do you need blood ?" ng-model="bloodRequest.requestData.purpose" required></textarea>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="alert alert-success text-center" ng-show="bloodRequest.successMsg">
+                                    {{ register.successMsg }}
+                                </div>
+                                <div class="alert alert-danger text-center" ng-show="bloodRequest.errorMsg">
+                                    {{ register.errorMsg }}
+                                </div>
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <button type="submit" class="btn btn-danger btn-lg btn-block">
+                                                Request Blood Now
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </form>
                     </div>
                 </div>
             </div>
