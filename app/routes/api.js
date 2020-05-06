@@ -939,6 +939,30 @@ module.exports = function (router){
         })
     });
 
+    // get all donors
+    router.get('/getDonors', auth.ensureLoggedIn, function (req, res) {
+        User.find({ }, function(err, donors) {
+            if(err) {
+                res.json({
+                    success : false,
+                    message : 'Something went wrong!'
+                })
+            } else {
+                if(!donors) {
+                    res.json({
+                        success : false,
+                        message : 'Donors not found.'
+                    })
+                } else {
+                    res.json({
+                        success : true,
+                        donors : donors
+                    })
+                }
+            }
+        })
+    });
+
     return router;
 };
 

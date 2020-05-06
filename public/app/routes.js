@@ -101,6 +101,13 @@ var app = angular.module('userRoutes', ['ngRoute'])
                 authenticated:true,
             })
 
+            .when('/find-donor',{
+                templateUrl : 'app/views/blood-request/find-donor.html',
+                controller : 'findDonorCtrl',
+                controllerAs : 'findDonor',
+                authenticated : true
+            })
+
             .otherwise( { redirectTo : '/'});
 
         $locationProvider.html5Mode({

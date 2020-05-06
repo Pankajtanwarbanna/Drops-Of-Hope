@@ -62,6 +62,10 @@ let bloodRequestSchema = new mongoose.Schema({
         type : String,
         validate : purposeValidator
     },
+    status : {
+        type : String,
+        default : 'open'
+    },
     requestedBy : {
         type : String,
         required : true

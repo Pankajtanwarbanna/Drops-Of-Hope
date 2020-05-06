@@ -1,0 +1,40 @@
+<div class="main-content">
+    <section class="section">
+        <div class="section-body">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card card-danger">
+                        <div class="card-header">
+                            <h4>Find Donor</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-12 col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <div class="form-group">
+                                            <label>Blood Group</label>
+                                            <select class="form-control" ng-model="bloodRequest.requestData.bloodGroup" required>
+                                                <option value="">-- Select Blood Group --</option>
+                                                <option ng-repeat="bloodGroup in findDonor.bloodGroups" value="bloodGroup">{{ bloodGroup }}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label>Donor Status</label>
+                                        <select class="form-control" ng-model="bloodRequest.requestData.bloodGroup" required>
+                                            <option value="">-- Select Status --</option>
+                                            <option value="all"> All </option>
+                                            <option value="available"> Available </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

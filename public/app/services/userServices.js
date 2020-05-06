@@ -58,5 +58,10 @@ angular.module('userServices',[])
         return $http.get('/api/getAllBloodRequests');
     };
 
+    // get all donors
+    userFactory.getDonors = function () {
+        return $http.get('/api/getDonors');
+    };
+
     return userFactory;
 });

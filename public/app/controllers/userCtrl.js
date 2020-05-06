@@ -105,5 +105,42 @@ angular.module('userCtrl',['userServices'])
         }
     })
 
-});
+})
 
+// find donor controller
+.controller('findDonorCtrl', function (user) {
+
+    let app = this;
+
+    console.log('teting this shit')
+    // blood groups array
+    app.bloodGroups = [
+        'A+',
+        'A-',
+        'B+',
+        'B-',
+        'AB+',
+        'AB-',
+        'A1+',
+        'A1-',
+        'A1B+',
+        'A1B-',
+        'A2+',
+        'A2-',
+        'A2B+',
+        'A2B-',
+        'O+',
+        'O-'
+    ];
+
+    // get all donors 
+    user.getDonors().then(function (data) {
+        console.log(data.data.donors);
+        if(data.data.success) {
+            app.donors = data.data.donors;
+        } else {
+            app.errorMsg = data.data.message;
+        }
+    })
+
+});
