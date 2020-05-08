@@ -22,9 +22,15 @@ var app = angular.module('userRoutes', ['ngRoute'])
                 controllerAs : 'edit'
             })
 
+            // User Profile Pages
             .when('/profile', {
                 templateUrl : '/app/views/users/profile.html',
-                authenticated : false
+                authenticated : true
+            })
+
+            .when('/settings', {
+                templateUrl : '/app/views/users/settings.html',
+                authenticated : true
             })
 
             .when('/users/:username', {

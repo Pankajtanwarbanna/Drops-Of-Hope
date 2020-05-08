@@ -230,7 +230,7 @@
 
 
             <!-- Main Home Content -->
-            <div ng-show="main.home">
+            <div ng-if="main.home">
                 <div class="main-content">
                     <section class="section">
                         <div class="row ">
@@ -955,11 +955,11 @@
 
         </div>
 
-        <div ng-show="!main.isLoggedIn && !main.home" class="main-wrapper main-wrapper-1">
+        <div ng-if="!main.isLoggedIn && !main.home" class="main-wrapper main-wrapper-1">
             <div class="ng-view" autoscroll="true"></div>
         </div>
 
-        <div ng-show="main.home && !main.isLoggedIn">
+        <div ng-if="main.home && !main.isLoggedIn">
             <section class="section">
                 <div class="container mt-5">
                     <div class="page-error">

@@ -1,130 +1,265 @@
-<!--
-<div class="page-header">
-    <h1 class="text-center">
-        {{ main.username }}'s PROFILE
-    </h1>
-</div>
-
-<div class="container-fluid">
-    <div class="row text-center">
-        <div class="col-sm-3">
-            <h2>
-                Name :
-            </h2>
+<!-- Main Content -->
+<div class="main-content">
+    <section class="section">
+        <div class="section-body">
+            <div class="row mt-sm-4">
+                <div class="col-12 col-md-12 col-lg-4">
+                    <div class="card author-box">
+                        <div class="card-body">
+                            <div class="author-box-center">
+                                <img alt="image" src="assets/img/users/user-1.png" class="rounded-circle author-box-picture">
+                                <div class="clearfix"></div>
+                                <div class="author-box-name">
+                                    <a href="#">Sarah Smith</a>
+                                </div>
+                                <div class="author-box-job">Web Developer</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="author-box-description">
+                                    <p>
+                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur voluptatum alias molestias
+                                        minus quod dignissimos.
+                                    </p>
+                                </div>
+                                <div class="mb-2 mt-3">
+                                    <div class="text-small font-weight-bold">Follow Hasan On</div>
+                                </div>
+                                <a href="#" class="btn btn-social-icon mr-1 btn-facebook">
+                                    <i class="fab fa-facebook-f"></i>
+                                </a>
+                                <a href="#" class="btn btn-social-icon mr-1 btn-twitter">
+                                    <i class="fab fa-twitter"></i>
+                                </a>
+                                <a href="#" class="btn btn-social-icon mr-1 btn-github">
+                                    <i class="fab fa-github"></i>
+                                </a>
+                                <a href="#" class="btn btn-social-icon mr-1 btn-instagram">
+                                    <i class="fab fa-instagram"></i>
+                                </a>
+                                <div class="w-100 d-sm-none"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>Personal Details</h4>
+                        </div>
+                        <div class="card-body">
+                            <div>
+                                <p class="clearfix">
+                        <span class="float-left">
+                          Birthday
+                        </span>
+                                    <span class="float-right text-muted">
+                          30-05-1998
+                        </span>
+                                </p>
+                                <p class="clearfix">
+                        <span class="float-left">
+                          Phone
+                        </span>
+                                    <span class="float-right text-muted">
+                          (0123)123456789
+                        </span>
+                                </p>
+                                <p class="clearfix">
+                        <span class="float-left">
+                          Mail
+                        </span>
+                                    <span class="float-right text-muted">
+                          test@example.com
+                        </span>
+                                </p>
+                                <p class="clearfix">
+                        <span class="float-left">
+                          Facebook
+                        </span>
+                                    <span class="float-right text-muted">
+                          <a href="#">John Deo</a>
+                        </span>
+                                </p>
+                                <p class="clearfix">
+                        <span class="float-left">
+                          Twitter
+                        </span>
+                                    <span class="float-right text-muted">
+                          <a href="#">@johndeo</a>
+                        </span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-12 col-lg-8">
+                    <div class="card">
+                        <section class="section">
+                            <div class="section-body">
+                                <div class="card-header" style="margin-top: 20px;">
+                                    <h4>Blood Request Timeline</h4>
+                                </div>
+                                <div class="row" style="margin-right: 0px;margin-left: 0px;">
+                                    <div class="col-12">
+                                        <div class="activities">
+                                            <div class="activity">
+                                                <div class="activity-icon bg-primary text-white">
+                                                    <i class="fas fa-comment-alt"></i>
+                                                </div>
+                                                <div class="activity-detail">
+                                                    <div class="mb-2">
+                                                        <span class="text-job text-primary">2 min ago</span>
+                                                        <span class="bullet"></span>
+                                                        <a class="text-job" href="#">View</a>
+                                                        <div class="float-right dropdown">
+                                                            <a href="#" data-toggle="dropdown"><i class="fas fa-ellipsis-h"></i></a>
+                                                            <div class="dropdown-menu">
+                                                                <div class="dropdown-title">Options</div>
+                                                                <a href="#" class="dropdown-item has-icon"><i class="fas fa-eye"></i> View</a>
+                                                                <a href="#" class="dropdown-item has-icon"><i class="fas fa-list"></i> Detail</a>
+                                                                <div class="dropdown-divider"></div>
+                                                                <a href="#" class="dropdown-item has-icon text-danger"
+                                                                   data-confirm="Wait, wait, wait...|This action can't be undone. Want to take risks?"
+                                                                   data-confirm-text-yes="Yes, IDC"><i class="fas fa-trash-alt"></i> Archive</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <p>Have commented on the task of "<a href="#">Responsive design</a>".</p>
+                                                </div>
+                                            </div>
+                                            <div class="activity">
+                                                <div class="activity-icon bg-primary text-white">
+                                                    <i class="fas fa-arrows-alt"></i>
+                                                </div>
+                                                <div class="activity-detail">
+                                                    <div class="mb-2">
+                                                        <span class="text-job">1 hour ago</span>
+                                                        <span class="bullet"></span>
+                                                        <a class="text-job" href="#">View</a>
+                                                        <div class="float-right dropdown">
+                                                            <a href="#" data-toggle="dropdown"><i class="fas fa-ellipsis-h"></i></a>
+                                                            <div class="dropdown-menu">
+                                                                <div class="dropdown-title">Options</div>
+                                                                <a href="#" class="dropdown-item has-icon"><i class="fas fa-eye"></i> View</a>
+                                                                <a href="#" class="dropdown-item has-icon"><i class="fas fa-list"></i> Detail</a>
+                                                                <div class="dropdown-divider"></div>
+                                                                <a href="#" class="dropdown-item has-icon text-danger"
+                                                                   data-confirm="Wait, wait, wait...|This action can't be undone. Want to take risks?"
+                                                                   data-confirm-text-yes="Yes, IDC"><i class="fas fa-trash-alt"></i> Archive</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <p>Moved the task "<a href="#">Fix some features that are bugs in the master module</a>" from
+                                                        Progress to Finish.</p>
+                                                </div>
+                                            </div>
+                                            <div class="activity">
+                                                <div class="activity-icon bg-primary text-white">
+                                                    <i class="fas fa-unlock"></i>
+                                                </div>
+                                                <div class="activity-detail">
+                                                    <div class="mb-2">
+                                                        <span class="text-job">4 hour ago</span>
+                                                        <span class="bullet"></span>
+                                                        <a class="text-job" href="#">View</a>
+                                                        <div class="float-right dropdown">
+                                                            <a href="#" data-toggle="dropdown"><i class="fas fa-ellipsis-h"></i></a>
+                                                            <div class="dropdown-menu">
+                                                                <div class="dropdown-title">Options</div>
+                                                                <a href="#" class="dropdown-item has-icon"><i class="fas fa-eye"></i> View</a>
+                                                                <a href="#" class="dropdown-item has-icon"><i class="fas fa-list"></i> Detail</a>
+                                                                <div class="dropdown-divider"></div>
+                                                                <a href="#" class="dropdown-item has-icon text-danger"
+                                                                   data-confirm="Wait, wait, wait...|This action can't be undone. Want to take risks?"
+                                                                   data-confirm-text-yes="Yes, IDC"><i class="fas fa-trash-alt"></i> Archive</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <p>Login to the system with ujang@maman.com email and location in Bogor.</p>
+                                                </div>
+                                            </div>
+                                            <div class="activity">
+                                                <div class="activity-icon bg-primary text-white">
+                                                    <i class="fas fa-sign-out-alt"></i>
+                                                </div>
+                                                <div class="activity-detail">
+                                                    <div class="mb-2">
+                                                        <span class="text-job">12 hour ago</span>
+                                                        <span class="bullet"></span>
+                                                        <a class="text-job" href="#">View</a>
+                                                        <div class="float-right dropdown">
+                                                            <a href="#" data-toggle="dropdown"><i class="fas fa-ellipsis-h"></i></a>
+                                                            <div class="dropdown-menu">
+                                                                <div class="dropdown-title">Options</div>
+                                                                <a href="#" class="dropdown-item has-icon"><i class="fas fa-eye"></i> View</a>
+                                                                <a href="#" class="dropdown-item has-icon"><i class="fas fa-list"></i> Detail</a>
+                                                                <div class="dropdown-divider"></div>
+                                                                <a href="#" class="dropdown-item has-icon text-danger"
+                                                                   data-confirm="Wait, wait, wait...|This action can't be undone. Want to take risks?"
+                                                                   data-confirm-text-yes="Yes, IDC"><i class="fas fa-trash-alt"></i> Archive</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <p>Log out of the system after 6 hours using the system.</p>
+                                                </div>
+                                            </div>
+                                            <div class="activity">
+                                                <div class="activity-icon bg-primary text-white">
+                                                    <i class="fas fa-trash"></i>
+                                                </div>
+                                                <div class="activity-detail">
+                                                    <div class="mb-2">
+                                                        <span class="text-job">Yesterday</span>
+                                                        <span class="bullet"></span>
+                                                        <a class="text-job" href="#">View</a>
+                                                        <div class="float-right dropdown">
+                                                            <a href="#" data-toggle="dropdown"><i class="fas fa-ellipsis-h"></i></a>
+                                                            <div class="dropdown-menu">
+                                                                <div class="dropdown-title">Options</div>
+                                                                <a href="#" class="dropdown-item has-icon"><i class="fas fa-eye"></i> View</a>
+                                                                <a href="#" class="dropdown-item has-icon"><i class="fas fa-list"></i> Detail</a>
+                                                                <div class="dropdown-divider"></div>
+                                                                <a href="#" class="dropdown-item has-icon text-danger"
+                                                                   data-confirm="Wait, wait, wait...|This action can't be undone. Want to take risks?"
+                                                                   data-confirm-text-yes="Yes, IDC"><i class="fas fa-trash-alt"></i> Archive</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <p>Removing task "Delete all unwanted selectors in CSS files".</p>
+                                                </div>
+                                            </div>
+                                            <div class="activity">
+                                                <div class="activity-icon bg-primary text-white">
+                                                    <i class="fas fa-trash"></i>
+                                                </div>
+                                                <div class="activity-detail">
+                                                    <div class="mb-2">
+                                                        <span class="text-job">Yesterday</span>
+                                                        <span class="bullet"></span>
+                                                        <a class="text-job" href="#">View</a>
+                                                        <div class="float-right dropdown">
+                                                            <a href="#" data-toggle="dropdown"><i class="fas fa-ellipsis-h"></i></a>
+                                                            <div class="dropdown-menu">
+                                                                <div class="dropdown-title">Options</div>
+                                                                <a href="#" class="dropdown-item has-icon"><i class="fas fa-eye"></i> View</a>
+                                                                <a href="#" class="dropdown-item has-icon"><i class="fas fa-list"></i> Detail</a>
+                                                                <div class="dropdown-divider"></div>
+                                                                <a href="#" class="dropdown-item has-icon text-danger"
+                                                                   data-confirm="Wait, wait, wait...|This action can't be undone. Want to take risks?"
+                                                                   data-confirm-text-yes="Yes, IDC"><i class="fas fa-trash-alt"></i> Archive</a>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <p>Assign the task of "<a href="#">Redesigning website header and make it responsive AF</a>" to <a
+                                                            href="#">Syahdan Ubaidilah</a>.</p>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </section>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="col-sm-9">
-            <h2>
-                {{ main.name }}
-            </h2>
-        </div>
-    </div>
-    <div class="row text-center">
-        <div class="col-sm-3">
-            <h2>
-                Username :
-            </h2>
-        </div>
-        <div class="col-sm-9 text-center">
-            <h2>
-                {{ main.username }}
-            </h2>
-        </div>
-    </div>
-    <div class="row text-center">
-        <div class="col-sm-3">
-            <h2>
-                Email :
-            </h2>
-        </div>
-        <div class="col-sm-9 text-center">
-            <h2>
-                {{ main.email }}
-            </h2>
-        </div>
-    </div>
-    <div class="row text-center">
-        <div class="col-sm-3">
-            <h2>
-                Password :
-            </h2>
-        </div>
-        <div class="col-sm-9 text-center">
-            <h2>
-                ***********
-            </h2>
-        </div>
-    </div>
+    </section>
 </div>
-
-
--->
-<div>
-    <div class="text-center">
-        <h1>Edit Profile</h1>
-    </div>
-</div>
-<br>
-<ul class="nav nav-tabs">
-    <li class="presentation" ng-click="edit.namePhase();" ng-class="nameTab"><a href="#">Name</a> </li>
-    <li class="presentation" ng-click="edit.usernamePhase();" ng-class="usernameTab"><a href="#">Username</a> </li>
-    <li class="presentation" ng-click="edit.emailPhase();" ng-class="emailTab"><a href="#">Email</a> </li>
-    <li class="presentation" ng-click="edit.permissionPhase();" ng-class="permissionTab"><a href="#">Permission</a> </li>
-</ul>
-<br>
-<!-- Name Phase -->
-<div ng-show="edit.namephase">
-
-    <form ng-submit="edit.updateName(newName);">
-        <label>Name : </label>
-        <input class="form-control" type="text" name="name" placeholder="Enter your name" ng-model="newName" required>
-        <br>
-        <button type="submit" class="btn btn-primary">Update</button>
-    </form>
-
-</div>
-
-<!-- username Phase -->
-<div ng-show="edit.usernamephase">
-
-    <form ng-submit="edit.updateUsername(newUsername);">
-        <label>Username : </label>
-        <input class="form-control" type="text" name="name" placeholder="Enter your username" ng-model="newUsername" required>
-        <br>
-        <button type="submit" class="btn btn-primary">Update</button>
-    </form>
-
-</div>
-
-<!-- Email Phase -->
-<div ng-show="edit.emailphase">
-
-    <form ng-submit="edit.updateEmail(newEmail);">
-        <label>Email : </label>
-        <input class="form-control" type="text" name="name" placeholder="Enter your email" ng-model="newEmail" required>
-        <br>
-        <button type="submit" class="btn btn-primary">Update</button>
-    </form>
-
-</div>
-
-<!-- Password Phase -->
-<div ng-show="edit.permissionphase">
-    <p> Current Role :  <span class="label label-primary">{{ permission }}</span></p>
-    <br>
-    <button class="btn btn-success" ng-click="edit.updatePermission(permission);">Upgrade to admin</button>
-</div>
-<br>
-<div class="row show-hide-message">
-    <div class="alert alert-success" ng-show="edit.successMsg">
-        <strong> Success! </strong> {{ edit.successMsg }}
-    </div>
-</div>
-
-
-<div class="row show-hide-message">
-    <div class="alert alert-danger" ng-show="edit.errorMsg">
-        <strong> Oops! </strong>{{ edit.errorMsg }}
-    </div>
-</div>
-
-<button ng-click="main.logout();" type="button" class="btn btn-danger">Logout</button>

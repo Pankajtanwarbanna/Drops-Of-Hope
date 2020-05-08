@@ -35,6 +35,57 @@
                     </div>
                 </div>
             </div>
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>Donors</h4>
+                            <div class="card-header-form">
+                                <form>
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" placeholder="Search">
+                                        <div class="input-group-btn">
+                                            <button class="btn btn-primary"><i class="fas fa-search"></i></button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Name</th>
+                                        <th>Blood Group</th>
+                                        <th>Contact No.</th>
+                                        <th>Due Date</th>
+                                        <th>Status</th>
+                                        <th>Action</th>
+                                    </tr>
+                                    <tr ng-repeat="donor in findDonor.donors">
+                                        <td>{{ $index + 1 }}.</td>
+                                        <td>
+                                            <img alt="image" src="assets/img/users/user-5.png" class="rounded-circle" width="35" data-toggle="tooltip" title="Wildan Ahdian">
+                                            &nbsp; &nbsp;{{ donor.firstName }} {{ donor.lastName }}
+                                        </td>
+                                        <td>
+                                            A+
+                                        </td>
+                                        <td>+91 7740996673</td>
+                                        <td>2018-01-20</td>
+                                        <td>
+                                            <div class="badge badge-success">Available</div>
+                                        </td>
+                                        <td><a href="#" class="btn btn-primary">Report</a></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
 </div>
