@@ -103,7 +103,7 @@ angular.module('userCtrl',['userServices'])
         } else {
             app.errorMsg = data.data.message;
         }
-    })
+    });
 
 })
 

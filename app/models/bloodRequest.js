@@ -14,8 +14,8 @@ let mobileNumberValidator = [
 let purposeValidator = [
     validate({
         validator: 'isLength',
-        arguments: [100],
-        message: 'Purpose should not have more than {ARGS[0]} characters'
+        arguments: [5,100],
+        message: 'Purpose should not have more than {ARGS[1]} characters'
     })
 ];
 
