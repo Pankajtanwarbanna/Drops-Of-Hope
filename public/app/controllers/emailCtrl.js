@@ -9,18 +9,22 @@ angular.module('emailController', ['userServices'])
 
     var app =  this;
 
+    app.loading = true;
+
     user.activateAccount($routeParams.token).then(function (data) {
 
         app.successMsg = false;
         app.errorMsg = false;
 
         if(data.data.success) {
+            app.loading = false;
             app.successMsg = data.data.message + '....Redirecting to login page';
             
             $timeout(function () {
-                $location.path('/register');
-            }, 2000);
+                $location.path('/login');
+            }, 3000);
         } else {
+            app.loading = false;
             app.errorMsg = data.data.message;
         }
     });

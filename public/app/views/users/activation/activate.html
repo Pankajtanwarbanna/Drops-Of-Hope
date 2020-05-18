@@ -1,19 +1,32 @@
-<div class="page-header">
-    <h1 class="text-center">
-        Account activation
-    </h1>
-</div>
+<section class="section">
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-8 offset-lg-2 col-xl-6 offset-xl-3">
+                <div class="card card-primary">
+                    <div class="card-body">
+                        <!-- Success -->
+                        <div class="form-group text-center" ng-show="email.successMsg">
+                            <img src="/assets/img/success.gif" style="width: 150px;height: 150px;">
+                            <h4>Success! {{ email.successMsg }}</h4>
+                        </div>
 
-<br>
+                        <!-- Error Msg -->
+                        <div class="form-group text-center" ng-show="email.errorMsg">
+                            <img src="/assets/img/failed.png" style="width: 150px;height: 150px;">
+                            <h4>Oops! {{ email.errorMsg }}</h4>
+                        </div>
 
-<div class="row show-hide-message">
-    <div class="alert alert-success" ng-show="email.successMsg">
-        <strong> Success! </strong> {{ email.successMsg  }}
+                        <!-- Loading Msg -->
+                        <div class="form-group text-center" ng-show="email.loading">
+                            <img src="/assets/img/preload.gif" style="width: 100px;height: 100px;">
+                            <h4>Please wait, while we fetch data for you...</h4>
+                        </div>
+                    </div>
+                </div>
+                <div class="simple-footer">
+                    Copyright &copy; Drops Of Hope 2020
+                </div>
+            </div>
+        </div>
     </div>
-</div>
-
-<div class="row show-hide-message">
-    <div class="alert alert-danger" ng-show="email.errorMsg">
-        <strong> Oops! </strong> {{ email.errorMsg  }}
-    </div>
-</div>
+</section>

@@ -76,5 +76,11 @@ let bloodRequestSchema = new mongoose.Schema({
     }
 });
 
+// Mongoose title case plugin
+bloodRequestSchema.plugin(titlize, {
+    paths: [ 'patientName','hospitalName', 'hospitalAddress'], // Array of paths
+});
+
+
 
 module.exports = mongoose.model('BloodRequest',bloodRequestSchema);

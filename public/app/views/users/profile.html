@@ -2,41 +2,28 @@
 <div class="main-content">
     <section class="section">
         <div class="section-body">
+            <h2 style="margin-top: -16px" class="section-title">My Profile</h2>
+            <p class="section-lead">
+                Hey {{ profile.user.firstName }}, here is your profile details!
+            </p>
             <div class="row mt-sm-4">
                 <div class="col-12 col-md-12 col-lg-4">
                     <div class="card author-box">
                         <div class="card-body">
                             <div class="author-box-center">
-                                <img alt="image" src="assets/img/users/user-1.png" class="rounded-circle author-box-picture">
+                                <img alt="image" src="assets/uploads/images/{{ profile.user.profile_url }}" class="rounded-circle author-box-picture">
                                 <div class="clearfix"></div>
                                 <div class="author-box-name">
-                                    <a href="#">Sarah Smith</a>
+                                    <a href="#">{{ profile.user.firstName }} {{ profile.user.lastName }}</a>
                                 </div>
-                                <div class="author-box-job">Web Developer</div>
+                                <div class="author-box-job">Blood Donor</div>
                             </div>
                             <div class="text-center">
                                 <div class="author-box-description">
                                     <p>
-                                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Pariatur voluptatum alias molestias
-                                        minus quod dignissimos.
+                                        A single pint can save three lives, a single gesture can create a million smiles.
                                     </p>
                                 </div>
-                                <div class="mb-2 mt-3">
-                                    <div class="text-small font-weight-bold">Follow Hasan On</div>
-                                </div>
-                                <a href="#" class="btn btn-social-icon mr-1 btn-facebook">
-                                    <i class="fab fa-facebook-f"></i>
-                                </a>
-                                <a href="#" class="btn btn-social-icon mr-1 btn-twitter">
-                                    <i class="fab fa-twitter"></i>
-                                </a>
-                                <a href="#" class="btn btn-social-icon mr-1 btn-github">
-                                    <i class="fab fa-github"></i>
-                                </a>
-                                <a href="#" class="btn btn-social-icon mr-1 btn-instagram">
-                                    <i class="fab fa-instagram"></i>
-                                </a>
-                                <div class="w-100 d-sm-none"></div>
                             </div>
                         </div>
                     </div>
@@ -47,44 +34,39 @@
                         <div class="card-body">
                             <div>
                                 <p class="clearfix">
-                        <span class="float-left">
-                          Birthday
-                        </span>
+                                    <span class="float-left">
+                                      Email
+                                    </span>
                                     <span class="float-right text-muted">
-                          30-05-1998
-                        </span>
+                                      {{ profile.user.email }}
+                                    </span>
                                 </p>
                                 <p class="clearfix">
-                        <span class="float-left">
-                          Phone
-                        </span>
+                                    <span class="float-left">
+                                      Contact No.
+                                    </span>
                                     <span class="float-right text-muted">
-                          (0123)123456789
-                        </span>
+                                      +91 {{ profile.user.contactNo }}
+                                    </span>
                                 </p>
                                 <p class="clearfix">
-                        <span class="float-left">
-                          Mail
-                        </span>
+                                    <span class="float-left">
+                                      Blood Group
+                                    </span>
                                     <span class="float-right text-muted">
-                          test@example.com
-                        </span>
+                                      {{ profile.user.bloodGroup }}
+                                    </span>
                                 </p>
                                 <p class="clearfix">
-                        <span class="float-left">
-                          Facebook
-                        </span>
-                                    <span class="float-right text-muted">
-                          <a href="#">John Deo</a>
-                        </span>
-                                </p>
-                                <p class="clearfix">
-                        <span class="float-left">
-                          Twitter
-                        </span>
-                                    <span class="float-right text-muted">
-                          <a href="#">@johndeo</a>
-                        </span>
+                                    <span class="float-left">
+                                      Date of Birth
+                                    </span>
+                                    <span class="float-right text-muted" ng-if="profile.user.dob">
+                                      {{ profile.user.dob }}
+                                    </span>
+                                    <span class="float-right text-muted" ng-if="!profile.user.dob">
+                                      N/A
+                                    </span>
                                 </p>
                             </div>
                         </div>

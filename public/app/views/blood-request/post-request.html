@@ -12,7 +12,14 @@
                         <div class="card-header">
                             <h4>Request Blood</h4>
                         </div>
-                        <form class="form" ng-submit="bloodRequest.postBloodRequest(requestData);">
+
+                        <!-- Success -->
+                        <div class="form-group text-center" ng-show="bloodRequest.successMsg">
+                            <img src="/assets/img/success.gif" style="width: 150px;height: 150px;">
+                            <h6 class="text-success">Success! {{ bloodRequest.successMsg }}</h6>
+                        </div>
+                        
+                        <form class="form" ng-submit="bloodRequest.postBloodRequest(requestData);" ng-show="!bloodRequest.successMsg">
                             <div class="card-body">
                                 <div class="row">
                                     <div class="col-12 col-md-4 col-lg-4">
@@ -27,7 +34,7 @@
                                                 <label>Blood Group</label>
                                                 <select class="form-control" ng-model="bloodRequest.requestData.bloodGroup" required>
                                                     <option value="">-- Select Blood Group --</option>
-                                                    <option ng-repeat="bloodGroup in bloodRequest.bloodGroups" value="bloodGroup">{{ bloodGroup }}</option>
+                                                    <option ng-repeat="bloodGroup in bloodRequest.bloodGroups" ng-value="bloodGroup">{{ bloodGroup }}</option>
                                                 </select>
                                             </div>
                                         </div>
@@ -108,13 +115,14 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="alert alert-success text-center" ng-show="bloodRequest.successMsg">
-                                    {{ bloodRequest.successMsg }}
+
+                                <!-- Error -->
+                                <div class="form-group text-center" ng-show="bloodRequest.errorMsg">
+                                    <img src="/assets/img/failed.png" style="width: 50px;height: 50px;">
+                                    <h6 class="text-danger">Oops! {{ bloodRequest.errorMsg }}</h6>
                                 </div>
-                                <div class="alert alert-danger text-center" ng-show="bloodRequest.errorMsg">
-                                    {{ bloodRequest.errorMsg }}
-                                </div>
-                                <div class="row">
+
+                                <div class="row" ng-if="!bloodRequest.loading">
                                     <div class="col-12">
                                         <div class="form-group">
                                             <button type="submit" class="btn btn-danger btn-lg btn-block">
@@ -122,6 +130,12 @@
                                             </button>
                                         </div>
                                     </div>
+                                </div>
+
+                                <!-- Loading Msg -->
+                                <div class="form-group text-center" ng-show="bloodRequest.loading">
+                                    <img src="/assets/img/preload.gif" style="width: 100px;height: 100px;">
+                                    <h6 class="text-muted">Please wait, posting your blood request...</h6>
                                 </div>
                             </div>
                         </form>

@@ -15,7 +15,7 @@ let passwordValidator = [
     validate({
         validator: 'matches',
         arguments: /^(?=.*[\d])(?=.*[\W]).{8,25}$/,
-        message : 'Your password is weak! Password must have one special character, one number and minimum 8 and maximum 25 character'
+        message : 'Your password is weak! New Password must have one special character, one number and minimum 8 and maximum 25 character'
     }),
     validate({
         validator: 'isLength',
@@ -39,10 +39,18 @@ let userSchema = new mongoose.Schema({
         required : true,
         validate : emailValidator
     },
+    bloodGroup : {
+        type : String,
+        required : true
+    },
+    contactNo : {
+        type : String,
+        required : true
+    },
     profile_url : {
         type : String,
         required : true,
-        default : 'default_profile.jpg'
+        default : 'default-user.png'
     },
     password : {
         type : String,

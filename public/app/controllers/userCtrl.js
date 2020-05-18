@@ -4,6 +4,26 @@ angular.module('userCtrl',['userServices'])
 
     var app = this;
 
+    // blood groups array
+    app.bloodGroups = [
+        'A+',
+        'A-',
+        'B+',
+        'B-',
+        'AB+',
+        'AB-',
+        'A1+',
+        'A1-',
+        'A1B+',
+        'A1B-',
+        'A2+',
+        'A2-',
+        'A2B+',
+        'A2B-',
+        'O+',
+        'O-'
+    ];
+
     this.regUser = function (regData) {
 
         console.log(app.regData);
@@ -54,16 +74,22 @@ angular.module('userCtrl',['userServices'])
         'O-'
     ];
 
+    // loading false
+    app.loading = false;
+
     // Post Blood Request Form Submit Function
     app.postBloodRequest = function (requestData) {
-        console.log(app.requestData);
+        //console.log(app.requestData);
+        app.loading = true;
 
         // post blood request API
         user.postBloodRequest(app.requestData).then(function (data) {
             console.log(data);
             if(data.data.success) {
+                app.loading = false;
                 app.successMsg = data.data.message;
             } else {
+                app.loading = false;
                 app.errorMsg = data.data.message;
             }
         })
@@ -95,12 +121,17 @@ angular.module('userCtrl',['userServices'])
         'O-'
     ];
 
+    // loading
+    app.loading = true;
+
     // Fetch all blood requests
     user.getAllBloodRequests().then(function (data) {
         console.log(data);
         if(data.data.success) {
+            app.loading = false;
             app.bloodRequests = data.data.bloodRequests;
         } else {
+            app.loading = false;
             app.errorMsg = data.data.message;
         }
     });
@@ -112,7 +143,6 @@ angular.module('userCtrl',['userServices'])
 
     let app = this;
 
-    console.log('teting this shit')
     // blood groups array
     app.bloodGroups = [
         'A+',
@@ -142,5 +172,68 @@ angular.module('userCtrl',['userServices'])
             app.errorMsg = data.data.message;
         }
     })
+})
 
+// user profile controller
+.controller('profileCtrl', function (user) {
+
+    let app = this;
+
+    user.getUserProfile().then(function (data) {
+        console.log(data);
+        if(data.data.success) {
+            app.user = data.data.user;
+        } else {
+            app.errorMsg = data.data.message;
+        }
+    })
+})
+
+// user account settings controller
+.controller('settingsCtrl', function (user) {
+
+    let app = this;
+
+    app.loading = false;
+
+    // update password function
+    app.updatePassword = function (passwordData) {
+
+        app.errorMsg = '';
+        app.loading = true;
+
+        console.log(app.passwordData);
+        if(app.passwordData.newPassword !== app.passwordData.confirmNewPassword) {
+            app.loading = false;
+            app.errorMsg = 'Password didn\'t match.'
+        } else {
+            user.updatePassword(app.passwordData).then(function (data) {
+                if(data.data.success) {
+                    app.loading = false;
+                    app.successMsg = data.data.message;
+                } else {
+                    app.loading = false;
+                    app.errorMsg = data.data.message;
+                }
+            })
+        }
+    }
+})
+
+// request controller
+.controller('requestCtrl', function ($routeParams, user) {
+
+    let app = this;
+
+    app.loading = true;
+
+    // get request data
+    user.getRequestData($routeParams.requestID).then(function (data) {
+        console.log(data);
+        if(data.data.success) {
+            app.bloodRequest = data.data.bloodRequest;
+        } else {
+            app.errorMsg = data.data.message;
+        }
+    })
 });

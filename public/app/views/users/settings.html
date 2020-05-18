@@ -1,0 +1,77 @@
+<div class="main-content">
+    <section class="section">
+        <div class="section-body">
+            <h2 style="margin-top: -16px" class="section-title">Change your password.</h2>
+            <p class="section-lead">
+                Hi {{ main.firstName }}, secure your account by changing your password on time!
+            </p>
+            <br>
+            <div class="row">
+                <div class="col-12">
+                    <div class="card card-primary">
+                        <div class="card-header">
+                            <h4>Change Password</h4>
+                        </div>
+
+                        <!-- Success -->
+                        <div class="form-group text-center" ng-show="settings.successMsg">
+                            <img src="/assets/img/success.gif" style="width: 150px;height: 150px;">
+                            <h6 class="text-success">Success! {{ settings.successMsg }}</h6>
+                        </div>
+
+                        <!-- Success -->
+                        <div class="form-group text-center" ng-show="settings.errorMsg">
+                            <img src="/assets/img/failed.png" style="width: 50px;height: 50px;">
+                            <h6 class="text-danger">Oops! {{ settings.errorMsg }}</h6>
+                        </div>
+
+                        <!-- Loading Msg -->
+                        <div class="form-group text-center" ng-show="settings.loading">
+                            <img src="/assets/img/preload.gif" style="width: 100px;height: 100px;">
+                            <h6 class="text-muted">Please wait, updating your password...</h6>
+                        </div>
+
+                        <form class="form" ng-submit="settings.updatePassword(passwordData);" ng-show="!settings.successMsg">
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label>Old Password</label>
+                                            <input type="password" class="form-control" placeholder="Enter your old password" ng-model="settings.passwordData.oldPassword" ng-disabled="settings.loading" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12 col-md-6 col-lg-6">
+                                        <div class="form-group">
+                                            <label>New Password</label>
+                                            <input type="password" class="form-control" placeholder="Enter your new password" ng-model="settings.passwordData.newPassword" ng-disabled="settings.loading" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6 col-lg-6">
+                                        <div class="form-group">
+                                            <label>Confirm New Password</label>
+                                            <input type="password" class="form-control" placeholder="Confirm your new password" ng-model="settings.passwordData.confirmNewPassword" ng-disabled="settings.loading" required>
+                                        </div>
+                                    </div>
+                                </div>
+
+
+
+                                <div class="row" ng-if="!settings.loading">
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <button type="submit" class="btn btn-primary btn-lg btn-block">
+                                                Update Password Now
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

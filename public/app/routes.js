@@ -25,17 +25,16 @@ var app = angular.module('userRoutes', ['ngRoute'])
             // User Profile Pages
             .when('/profile', {
                 templateUrl : '/app/views/users/profile.html',
-                authenticated : true
+                authenticated : true,
+                controller : 'profileCtrl',
+                controllerAs : 'profile'
             })
 
             .when('/settings', {
                 templateUrl : '/app/views/users/settings.html',
-                authenticated : true
-            })
-
-            .when('/users/:username', {
-                templateUrl : '/app/views/users/userProfile.html',
-                authenticated : true
+                authenticated : true,
+                controller : 'settingsCtrl',
+                controllerAs : 'settings'
             })
 
             .when('/activate/:token', {
@@ -66,22 +65,6 @@ var app = angular.module('userRoutes', ['ngRoute'])
                 controllerAs : 'reset'
             })
 
-            .when('/management', {
-                templateUrl : 'app/views/admin/management.html',
-                authenticated : true,
-                controller : 'managementCtrl',
-                controllerAs : 'management',
-                permission : 'admin'
-            })
-
-            .when('/edit/:id', {
-                templateUrl : 'app/views/admin/edit.html',
-                authenticated : true,
-                controller : 'editCtrl',
-                controllerAs : 'edit',
-                permission : 'admin'
-            })
-
             .when('/photos',{
                 templateUrl:'app/views/gallery/photos.html',
                 authenticated:true,
@@ -99,6 +82,14 @@ var app = angular.module('userRoutes', ['ngRoute'])
                 controller : 'viewAllBloodRequestCtrl',
                 controllerAs : 'viewAllBloodRequest'
             })
+
+            .when('/request/:requestID',{
+                templateUrl : 'app/views/blood-request/request.html',
+                authenticated :true,
+                controller : 'requestCtrl',
+                controllerAs : 'request'
+            })
+
 
             .when('/post-request',{
                 templateUrl : 'app/views/blood-request/post-request.html',

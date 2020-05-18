@@ -28,10 +28,12 @@ module.exports = function (router){
         user.lastName = req.body.lastName;
         user.email = req.body.email;
         user.password = req.body.password;
+        user.bloodGroup = req.body.bloodGroup;
+        user.contactNo = req.body.contactNo;
         user.temporarytoken = jwt.sign({ email : user.email }, secret , { expiresIn : '24h' });
 
         //console.log(req.body);
-        if(!user.firstName  || !user.lastName || !user.email || !user.password) {
+        if(!user.firstName  || !user.lastName || !user.email || !user.password || !user.bloodGroup || !user.contactNo) {
             res.json({
                 success : false,
                 message : 'Ensure you filled all entries!'
@@ -939,6 +941,28 @@ module.exports = function (router){
         })
     });
 
+    // get blood request
+    router.get('/getRequestData/:requestID', auth.ensureLoggedIn, function (req, res) {
+        BloodRequest.findOne({ _id : req.params.requestID }, function (err, bloodRequest) {
+            if(err) {
+                res.json({
+                    success : false,
+                    message : 'Something went wrong!'
+                })
+            } else if(!bloodRequest) {
+                res.json({
+                    success : false,
+                    message : 'Blood requests not found.'
+                })
+            } else {
+                res.json({
+                    success : true,
+                    bloodRequest : bloodRequest
+                })
+            }
+        })
+    });
+
     // get all donors
     router.get('/getDonors', auth.ensureLoggedIn, function (req, res) {
         User.find({ }, function(err, donors) {
@@ -961,6 +985,113 @@ module.exports = function (router){
                 }
             }
         })
+    });
+
+    // Get user profile route
+    router.get('/getUserProfile',auth.ensureLoggedIn, function (req, res) {
+
+        User.findOne({ email : req.decoded.email }, function (err, user) {
+            if(err) {
+                res.json({
+                    success : false,
+                    message : 'Something went wrong!'
+                })
+            } else {
+                if(!user) {
+                    res.json({
+                        success : false,
+                        message : 'User not found.'
+                    })
+                } else {
+                    res.json({
+                        success : true,
+                        user : user
+                    })
+                }
+            }
+        })
+    });
+
+    // router to update user's password
+    router.post('/updatePassword', auth.ensureLoggedIn, function (req, res) {
+        User.findOne({ email : req.decoded.email }).select('email firstName password').exec(function (err, user) {
+            if(err) {
+                res.json({
+                    success : false,
+                    message : 'Database side error.'
+                })
+            }
+
+            if(!user) {
+                res.json({
+                    success : false,
+                    message : 'User not found.'
+                })
+            } else {
+                let validPassword = user.comparePassword(req.body.oldPassword);
+
+                if(validPassword) {
+                    user.password = req.body.newPassword;
+
+                    //console.log(user.password);
+
+                    user.save(function (err) {
+                        if (err) {
+                            if(err.errors != null) {
+                                // validation errors
+                                if(err.errors.password) {
+                                    res.json({
+                                        success : false,
+                                        message : err.errors.password.message
+                                    });
+                                } else {
+                                    res.json({
+                                        success : false,
+                                        message : err
+                                    });
+                                }
+                            } else {
+                                res.json({
+                                    success : false,
+                                    message : 'Something went wrong.'
+                                })
+                            }
+                        } else {
+
+                            let email = {
+                                from: '"DropsOfHope" <dropsofhope@gmail.com>',
+                                to: user.email,
+                                subject: 'Password Changed Successfully!',
+                                text: 'Hello '+ user.firstName + 'You request for the change password.Password has been successfully changed. Thank you',
+                                html: 'Hello <strong>'+ user.firstName + '</strong>,<br><br>You requested for the change password. Your password has been successfully changed.<br><br>Thank you<br>Team DropsOfHope<br>MNIT Jaipur'
+                            };
+
+                            client.sendMail(email, function(err, info){
+                                if (err){
+                                    console.log(err);
+                                    res.json({
+                                        success : true,
+                                        message : 'Password has been changed successfully!' // email server is not responding
+                                    });
+                                }
+                                else {
+                                    console.log('Message sent: ' + info.response);
+                                    res.json({
+                                        success : true,
+                                        message : 'Password has been changed successfully.'
+                                    });
+                                }
+                            });
+                        }
+                    })
+                } else {
+                    res.json({
+                        success : false,
+                        message : 'Incorrect old password.'
+                    })
+                }
+            }
+        });
     });
 
     return router;

@@ -58,9 +58,24 @@ angular.module('userServices',[])
         return $http.get('/api/getAllBloodRequests');
     };
 
+    // get blood reuqest data as per id
+    userFactory.getRequestData = function(requestID) {
+        return $http.get('/api/getRequestData/' + requestID);
+    };
+
     // get all donors
     userFactory.getDonors = function () {
         return $http.get('/api/getDonors');
+    };
+
+    // get user profile
+    userFactory.getUserProfile = function () {
+        return $http.get('/api/getUserProfile');
+    };
+
+    // update user password
+    userFactory.updatePassword = function (passwordData) {
+        return $http.post('/api/updatePassword', passwordData);
     };
 
     return userFactory;

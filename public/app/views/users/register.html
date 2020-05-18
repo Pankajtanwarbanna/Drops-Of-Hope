@@ -18,6 +18,24 @@
                                     <input type="text" class="form-control" ng-model="register.regData.lastName" required>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="form-group col-6">
+                                    <label>Blood Group</label>
+                                    <select class="form-control" ng-model="register.regData.bloodGroup" required>
+                                        <option value="">-- Select Blood Group --</option>
+                                        <option ng-repeat="bloodGroup in register.bloodGroups" ng-value="bloodGroup">{{ bloodGroup }}</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-6">
+                                    <label>Contact No.</label>
+                                    <div class="input-group mb-2">
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text"> +91 </div>
+                                        </div>
+                                        <input type="text" class="form-control" ng-model="register.regData.contactNo" required>
+                                    </div>
+                                </div>
+                            </div>
                             <div class="form-group">
                                 <label>Email</label>
                                 <input type="email" class="form-control" ng-model="register.regData.email" required>

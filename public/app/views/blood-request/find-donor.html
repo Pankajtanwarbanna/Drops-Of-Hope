@@ -13,9 +13,9 @@
                                     <div class="form-group">
                                         <div class="form-group">
                                             <label>Blood Group</label>
-                                            <select class="form-control" ng-model="bloodRequest.requestData.bloodGroup" required>
+                                            <select class="form-control" ng-model="bg" required>
                                                 <option value="">-- Select Blood Group --</option>
-                                                <option ng-repeat="bloodGroup in findDonor.bloodGroups" value="bloodGroup">{{ bloodGroup }}</option>
+                                                <option ng-repeat="bloodGroup in findDonor.bloodGroups" ng-value="bloodGroup">{{ bloodGroup }}</option>
                                             </select>
                                         </div>
                                     </div>
@@ -57,23 +57,23 @@
                                 <table class="table">
                                     <tr>
                                         <th>#</th>
-                                        <th>Name</th>
+                                        <th>Name {{ bg }}</th>
                                         <th>Blood Group</th>
                                         <th>Contact No.</th>
                                         <th>Due Date</th>
                                         <th>Status</th>
                                         <th>Action</th>
                                     </tr>
-                                    <tr ng-repeat="donor in findDonor.donors">
+                                    <tr ng-repeat="donor in findDonor.donors | filter : bg">
                                         <td>{{ $index + 1 }}.</td>
                                         <td>
-                                            <img alt="image" src="assets/img/users/user-5.png" class="rounded-circle" width="35" data-toggle="tooltip" title="Wildan Ahdian">
+                                            <img alt="image" src="/assets/uploads/images/{{ donor.profile_url }}" class="rounded-circle" width="35" data-toggle="tooltip" title="Wildan Ahdian">
                                             &nbsp; &nbsp;{{ donor.firstName }} {{ donor.lastName }}
                                         </td>
                                         <td>
-                                            A+
+                                            {{ donor.bloodGroup }}
                                         </td>
-                                        <td>+91 7740996673</td>
+                                        <td>+91 {{ donor.contactNo }}</td>
                                         <td>2018-01-20</td>
                                         <td>
                                             <div class="badge badge-success">Available</div>
