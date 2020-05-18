@@ -15,19 +15,53 @@
             </form>
             <br>
             <div class="row">
-                <div class="col-12 col-md-6 col-lg-4">
+                <div class="col-12 col-md-6 col-lg-6">
                     <div class="card card-danger">
-                        <div class="card-header">
-                            <h4 style="float:left">Blood Group : {{viewAllBloodRequest.bloodRequests[0].bloodGroup}}</h4>
-                            <h4 style="float:left">Units Needed : {{viewAllBloodRequest.bloodRequests[0].units}}</h4>
-                            <div class="card-header-action">
-                                <a data-collapse="#mycard-collapse1" class="btn btn-icon btn-info" href="#"><i
-                                        class="fas fa-plus"></i></a>
+                        <div class="card-header row">
+                            <div class="col-md-12 col-lg-2" style="background-image: url('assets/img/bg/bgroup.jpeg'); border-radius: 1vh" >
+                                <p style="font-size: 16px; margin-top: 2vh;font-weight: bold; color: white; text-align: center">{{viewAllBloodRequest.bloodRequests[0].bloodGroup}}</p>
                             </div>
+                            <div style="margin-left: 1vh" class="col-lg-9 col-md-12">
+                                <div style="margin-top: 1vh;" class="row">
+                                    <div class="col-9">
+                                        <h4 style="color: darkslategrey; font-weight: bold;">{{viewAllBloodRequest.bloodRequests[0].patientName}}</h4>
+                                    </div>
+                                    <div class="col-2">
+                                        <div style="margin-left: 2vh" class="card-header-action"><a data-collapse="#mycard-collapse1" class="btn btn-icon btn-info" href="#"><i
+                                                    class="fas fa-plus"></i></a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div style="margin-left:0.1vh " class="row" >
+                                    <p style="color: darkred; font-weight: bold; font-size: medium">{{viewAllBloodRequest.bloodRequests[0].unitsRequired}}</p>
+                                    <p style="margin-left:5px; color: grey; font-weight: bold; font-size: medium">Unit/s</p>
+                                </div>
+                                <div style="margin-top: -2vh; margin-left: 0.1vh" class="row" >
+                                    <p style="color: grey; font-weight: bold; font-size: medium">{{viewAllBloodRequest.bloodRequests[0].hospitalName}}, {{viewAllBloodRequest.bloodRequests[0].hospitalAddress}}</p>
+                                </div>
+                            </div>
+
                         </div>
                         <div class="collapse " id="mycard-collapse1">
                             <div class="card-body">
-                                <p>Card <code>.card-danger</code></p>
+                                <div class="row">
+                                    <p style="font-weight: bold;color: darkred; font-size: medium">Age : </p>
+                                    <p style="font-weight: bold;color: darkslategrey; font-size: medium; margin-left: 1vh">{{viewAllBloodRequest.bloodRequests[0].patientAge}}</p>
+                                    <p style="font-weight: bold;color: darkred; font-size: medium; margin-left: 2vh">Gender : </p>
+                                    <p style="font-weight: bold;color: darkslategrey; font-size: medium; margin-left: 1vh">{{viewAllBloodRequest.bloodRequests[0].patientGender}}</p>
+                                    <p style="font-weight: bold;color: darkred; font-size: medium; margin-left: 2vh">Contact No : </p>
+                                    <p style="font-weight: bold;color: darkslategrey; font-size: medium; margin-left: 1vh">+91 {{viewAllBloodRequest.bloodRequests[0].patientMobile}}</p>
+                                </div>
+                                <div class="row">
+                                    <p style="font-weight: bold;color: darkred; font-size: medium;">Required By : </p>
+                                    <p style="font-weight: bold;color: darkslategrey; font-size: medium; margin-left: 1vh">{{viewAllBloodRequest.bloodRequests[0].requiredDate}}</p>
+                                    <p style="font-weight: bold;color: darkred; font-size: medium; margin-left: 2vh">Requested By : </p>
+                                    <p style="font-weight: bold;color: darkslategrey; font-size: medium; margin-left: 1vh">{{viewAllBloodRequest.bloodRequests[0].purpose}}</p>
+                                </div>
+                                <div class="row">
+                                    <p style="font-weight: bold;color: darkred; font-size: medium">Purpose : </p>
+                                    <p style="font-weight: bold;color: darkslategrey; font-size: medium; margin-left: 1vh">{{viewAllBloodRequest.bloodRequests[0].purpose}}</p>
+                                </div>
                             </div>
                         </div>
                     </div>
