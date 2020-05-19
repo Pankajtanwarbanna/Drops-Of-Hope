@@ -68,7 +68,7 @@
                                     <tr ng-repeat="donor in donors = (findDonor.donors | filter : { bloodGroup : bg , available : status, firstName : searchDonor }) ">
                                         <td>{{ $index + 1 }}.</td>
                                         <td>
-                                            <img alt="image" src="/assets/uploads/images/{{ donor.profile_url }}" class="rounded-circle" width="35" data-toggle="tooltip" title="Wildan Ahdian">
+                                            <img alt="image" src="/assets/uploads/{{ donor.profile_url }}" class="rounded-circle" width="35" data-toggle="tooltip" title="Wildan Ahdian">
                                             &nbsp; &nbsp;{{ donor.firstName }} {{ donor.lastName }}
                                         </td>
                                         <td>

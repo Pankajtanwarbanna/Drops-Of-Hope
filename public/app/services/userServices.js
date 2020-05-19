@@ -83,5 +83,14 @@ angular.module('userServices',[])
         return $http.get('/api/getUserPostedBloodRequests');
     };
 
+    // show willingness
+    userFactory.showWillingness = function (requestID) {
+        return $http.post('/api/showWillingness/' + requestID);
+    };
+
+    // update profile picture
+    userFactory.updateProfilePictureURL = function (requestData) {
+        return $http.post('/api/updateProfilePictureURL', requestData);
+    };
     return userFactory;
 });

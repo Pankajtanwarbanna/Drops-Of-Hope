@@ -70,6 +70,8 @@ let bloodRequestSchema = new mongoose.Schema({
         type : String,
         required : true
     },
+    views : [String],
+    accepted : [String],
     timestamp : {
         type : Date,
         required : true

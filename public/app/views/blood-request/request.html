@@ -7,14 +7,14 @@
                 <div class="col-12">
                     <div class="card profile-widget">
                         <div class="profile-widget-header">
-                            <p style="background-image: url('assets/img/bg/bgroup.jpeg');border-radius: 50%;height:14vh;font-size: 4vh;color: white;padding-top: 5vh;padding-left:3.5vh;font-weight:bolder" class="profile-widget-picture">{{ request.bloodRequest.bloodGroup}}</p>
+                            <p style="background-image: url('assets/img/bg/bgroup.jpeg');border-radius: 50%;height:14vh;font-size: 4vh;color: white;padding-top: 5vh;padding-left:4vh;font-weight:bolder" class="profile-widget-picture">{{ request.bloodRequest.bloodGroup}}</p>
                             <div class="profile-widget-items">
                                 <div class="profile-widget-item">
                                     <div class="profile-widget-item-label">Unit(s) </div>
-                                    <div class="profile-widget-item-value">{{ request.bloodRequest.unitsRequired }}</div>
+                                    <div class="profile-widget-item-value">{{ request.bloodRequest.unitsRequired }} Units</div>
                                 </div>
                                 <div class="profile-widget-item">
-                                    <div class="profile-widget-item-label">Blood Required Till</div>
+                                    <div class="profile-widget-item-label">Live till</div>
                                     <div class="profile-widget-item-value">{{ request.bloodRequest.requiredDate  | date : 'dd MMMM yyyy' }}</div>
                                 </div>
                                 <div class="profile-widget-item">
@@ -24,9 +24,10 @@
                             </div>
                         </div>
                         <div class="profile-widget-description">
-                            <div class="profile-widget-name">Requested by {{ request.bloodRequest.name }}
+                            <div class="profile-widget-name">Requested by {{ request.bloodRequest.author[0].firstName }}
                                 <div class="text-muted d-inline font-weight-normal">
-                                    <div class="badge badge-success">Opened Request</div>
+                                    <div class="badge badge-success" ng-if="request.bloodRequest.status == 'open'">Open Request</div>
+                                    <div class="badge badge-success" ng-if="request.bloodRequest.status !== 'open'">Closed Request</div>
                                 </div>
                             </div>
                             <hr>
@@ -113,7 +114,7 @@
                                         <div class="media-body ml-3">
                                             <span >Request Status</span>
                                             <br>
-                                            <medium class="font-bold">{{ request.bloodRequest.status }}</medium>
+                                            <medium class="font-bold">{{ request.bloodRequest.status | uppercase }}</medium>
                                         </div>
                                     </div>
                                 </div>
@@ -123,7 +124,7 @@
                                         <div class="media-body ml-3">
                                             <span>Posted On</span>
                                             <br>
-                                            <medium class="font-bold">{{ request.bloodRequest.timestamp | date : 'HH:MM:ss dd MMMM yyyy'}}</medium>
+                                            <medium class="font-bold">{{ request.bloodRequest.timestamp | date : 'dd MMMM yyyy, HH:MM a'}}</medium>
                                         </div>
                                     </div>
                                 </div>
@@ -132,14 +133,98 @@
                         </div>
                         <div class="card-footer text-center pt-0">
                             <div class="font-weight-bold mb-2 text-small">Actions</div>
+                            <p class="text-success" ng-show="request.willingnessSuccessMsg">Yay! {{ request.willingnessSuccessMsg }}</p>
+                            <p class="text-danger" ng-show="request.willingnessErrorMsg">Oops! {{ request.willingnessErrorMsg }}</p>
                             <div class="buttons">
-                                <a href="#" class="btn btn-icon icon-left btn-primary"><i class="far fa-edit"></i> Willing to donate</a>
-                                <a href="#" class="btn btn-icon icon-left btn-info"><i class="fas fa-info-circle"></i> Share with friend</a>
-                                <a href="#" class="btn btn-icon icon-left btn-warning"><i class="fas fa-exclamation-triangle"></i>Some action</a>
-                                <a href="#" class="btn btn-icon icon-left btn-danger"><i class="fas fa-times"></i> Report </a>
-                                <a href="#" class="btn btn-icon icon-left btn-success"><i class="fas fa-check"></i> Success</a>
+                                <!--<a href="#" class="btn btn-icon icon-left btn-primary" data-toggle="modal" data-target="#basicModal"><i class="fas fa-tint"></i> Willing to donate</a>-->
+                                <a href="#" ng-click="request.showWillingness();" class="btn btn-icon icon-left btn-primary" ng-show="request.bloodRequest.accepted.indexOf(main.email) === -1"><i class="fas fa-tint"></i> Willing to donate</a>
+                                <a href="#" class="btn btn-icon icon-left btn-success" ng-show="request.bloodRequest.accepted.indexOf(main.email) !== -1"><i class="fas fa-check-circle"></i>Thank you for your help.</a>
+
+                                <a href="#" class="btn btn-icon icon-left btn-info"><i class="fas fa-share"></i> Share with friend</a>
+                                <a href="#" class="btn btn-icon icon-left btn-danger"><i class="fas fa-exclamation-triangle"></i> Report </a>
                             </div>
 
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 col-md-12" ng-show="main.authorized || main.email === request.bloodRequest.requestedBy">
+                    <div class="card l-bg-red">
+                        <div class="card-statistic-3">
+                            <div class="card-icon card-icon-large"><i class="fa fa-eye"></i></div>
+                            <div class="card-content">
+                                <p class="mb-0 text-sm">
+                                    <span class="text-nowrap">Total Views</span>
+                                </p>
+                                <h4 class="card-title">{{ request.bloodRequest.views.length }} Views</h4>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-12" ng-show="main.authorized || main.email === request.bloodRequest.requestedBy">
+                    <div class="card l-bg-green">
+                        <div class="card-statistic-3">
+                            <div class="card-icon card-icon-large"><i class="fa fa-user-alt"></i></div>
+                            <div class="card-content">
+                                <p class="mb-0 text-sm">
+                                    <span class="text-nowrap">Donors Accepted</span>
+                                </p>
+                                <h4 class="card-title">{{ request.bloodRequest.accepted.length }} Donors</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-12" ng-show="main.authorized || main.email === request.bloodRequest.requestedBy">
+                    <div class="card l-bg-orange">
+                        <div class="card-statistic-3">
+                            <div class="card-icon card-icon-large"><i class="fa fa-tint"></i></div>
+                            <div class="card-content">
+                                <p class="mb-0 text-sm">
+                                    <span class="text-nowrap">Live till</span>
+                                </p>
+                                <h4 class="card-title">{{ request.bloodRequest.requiredDate  | date : 'dd MMMM yyyy' }}</h4>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12" ng-if="request.bloodRequest.accepted != 0" ng-show="main.authorized || main.email === request.bloodRequest.requestedBy">
+                    <div class="card author-box card-primary">
+                        <div class="card-header">
+                            <h4>Willing Donors</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <tr>
+                                        <th>#</th>
+                                        <th>Name </th>
+                                        <th>Blood Group</th>
+                                        <th>Contact No.</th>
+                                        <th>Email</th>
+                                        <th>Status</th>
+                                        <th>Report</th>
+                                    </tr>
+                                    <tr ng-repeat="donor in donors = (request.bloodRequest.donors | filter : { bloodGroup : bg , available : status, firstName : searchDonor }) ">
+                                        <td>{{ $index + 1 }}.</td>
+                                        <td>
+                                            <img alt="image" src="/assets/uploads/{{ donor.profile_url }}" class="rounded-circle" width="35" data-toggle="tooltip" title="Wildan Ahdian">
+                                            &nbsp; &nbsp;{{ donor.firstName }} {{ donor.lastName }}
+                                        </td>
+                                        <td>
+                                            {{ donor.bloodGroup }}
+                                        </td>
+                                        <td>+91 {{ donor.contactNo }}</td>
+                                        <td>{{ donor.email }}</td>
+                                        <td>
+                                            <div ng-if="donor.available == 'Yes'" class="badge badge-success">Available</div>
+                                            <div ng-if="donor.available == 'No'" class="badge badge-warning">Not Available</div>
+                                        </td>
+                                        <td><a href="#" class="btn btn-outline-danger"><i class="fas fa-exclamation-triangle"></i></a></td>
+                                    </tr>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -153,15 +238,15 @@
                     <div class="card author-box card-primary">
                         <div class="card-body">
                             <div class="author-box-left">
-                                <img alt="image" src="assets/img/users/user-1.png" class="rounded-circle author-box-picture">
+                                <img alt="image" src="/assets/uploads/{{ request.bloodRequest.author[0].profile_url }}" class="rounded-circle author-box-picture">
                             </div>
                             <div class="author-box-details">
                                 <div class="author-box-name">
-                                    <a href="#">Pankaj Tanwar</a>
+                                    <a href="#">{{ request.bloodRequest.author[0].firstName }} {{ request.bloodRequest.author[0].lastName }}</a>
                                 </div>
                                 <div class="author-box-job">Blood Request Author</div>
                                 <div class="author-box-description">
-                                    <p>For any queries related to this blood request, feel free to contact me. I can be reached at <b>+91 7740996673</b>.</p>
+                                    <p>For any queries related to this blood request, feel free to contact me. I can be reached at <b>+91 {{ request.bloodRequest.author[0].contactNo }}</b>.</p>
                                 </div>
 
                             </div>
@@ -171,4 +256,51 @@
             </div>
         </div>
     </section>
+
+    <!-- Last donated date & hemoglobin level -->
+    <!-- basic modal -->
+    <div class="modal fade" id="basicModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Help us understand you better!</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form class="">
+                        <div class="form-group">
+                            <label>Hemoglobin Level</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <i class="fas fa-envelope"></i>
+                                    </div>
+                                </div>
+                                <input type="text" class="form-control" placeholder="Enter your approx hemoglobin level" name="email">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Last Donated Date</label>
+                            <div class="input-group">
+                                <div class="input-group-prepend">
+                                    <div class="input-group-text">
+                                        <i class="fas fa-lock"></i>
+                                    </div>
+                                </div>
+                                <input type="date" class="form-control">
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+                <div class="modal-footer bg-whitesmoke br">
+                    <button type="button" class="btn btn-primary">Save changes</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>

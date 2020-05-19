@@ -8,6 +8,43 @@ let jwt = require('jsonwebtoken');
 let secret = 'zulu';
 let nodemailer = require('nodemailer');
 let sgTransport = require('nodemailer-sendgrid-transport');
+let mongoose = require('mongoose');
+let multer = require('multer');
+
+var imageStorage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, __basedir + '/public/assets/uploads/')
+    },
+    filename: function (req, file, cb) {
+
+        if(!file.originalname.match(/\.(jpeg|png|jpg|JPG)$/)) {
+            let err = new Error();
+            err.code = 'filetype';
+            return cb(err);
+        } else {
+            cb(null,Date.now() + '_' + file.originalname.replace(/ /g,'')) // replace - to remove all white spaces
+        }
+    }
+});
+
+var fileStorage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, __basedir + '/public/assets/uploads/')
+    },
+    filename: function (req, file, cb) {
+        cb(null,Date.now() + '_' + file.originalname.replace(/ /g,'')) // replace - to remove all white spaces
+    }
+});
+
+var upload = multer({
+    storage: imageStorage,
+    limits : { fileSize : 100000000000000 }
+}).single('thumbnail');
+
+var fileUpload = multer({
+    storage: fileStorage,
+    limits : { fileSize : 100000000000000 }
+}).single('myfile');
 
 module.exports = function (router){
 
@@ -19,6 +56,87 @@ module.exports = function (router){
     };
 
     let client = nodemailer.createTransport(sgTransport(options));
+
+    // Upload Profile Picture
+    router.post('/uploadImage', function (req, res) {
+        upload(req, res, function (err) {
+            if (err) {
+                if(err.code === 'LIMIT_FILE_SIZE') {
+                    res.json({
+                        success : false,
+                        message : 'File is too large.'
+                    })
+                } else if(err.code === 'filetype') {
+                    res.json({
+                        success : false,
+                        message : 'File type invalid.'
+                    })
+                } else {
+                    console.log(err);
+                    res.json({
+                        success : false,
+                        message : 'File was not able to be uploaded'
+                    })
+                }
+            } else {
+
+                if(!req.file) {
+                    res.json({
+                        success: false,
+                        message: 'File missing.'
+                    })
+                } else {
+                    console.log(req.file);
+                    res.json({
+                        success : true,
+                        message : 'File Uploaded successfully.',
+                        filename : req.file.filename
+                    })
+                }
+            }
+        })
+    });
+
+    // Upload Profile Picture
+    router.post('/upload', function (req, res) {
+        fileUpload(req, res, function (err) {
+            if (err) {
+                if(err.code === 'LIMIT_FILE_SIZE') {
+                    res.json({
+                        success : false,
+                        message : 'File is too large.'
+                    })
+                } else if(err.code === 'filetype') {
+                    res.json({
+                        success : false,
+                        message : 'File type invalid.'
+                    })
+                } else {
+                    console.log(err);
+                    res.json({
+                        success : false,
+                        message : 'File was not able to be uploaded'
+                    })
+                }
+            } else {
+
+                if(!req.file) {
+                    res.json({
+                        success: false,
+                        message: 'File missing.'
+                    })
+                } else {
+                    console.log(req.file);
+                    res.json({
+                        success : true,
+                        message : 'File Uploaded successfully.',
+                        filename : req.file.filename
+                    })
+                }
+            }
+        })
+    });
+
 
     // User register API
     router.post('/register',function (req, res) {
@@ -522,7 +640,7 @@ module.exports = function (router){
 
         //console.log(req.decoded.email);
         // getting profile of user from database using email, saved in the token in localStorage
-        User.findOne({ email : req.decoded.email }).select('email firstName').exec(function (err, user) {
+        User.findOne({ email : req.decoded.email }).select('email firstName profile_url').exec(function (err, user) {
             if(err) throw err;
 
             if(!user) {
@@ -933,7 +1051,7 @@ module.exports = function (router){
 
     // Route to get all blood requests
     router.get('/getAllBloodRequests', auth.ensureLoggedIn, function (req, res) {
-        BloodRequest.find({ }, function (err, bloodRequests) {
+        BloodRequest.find({ status : 'open', requiredDate : { $gte : new Date() } }, function (err, bloodRequests) {
             if(err) {
                 res.json({
                     success : false,
@@ -955,7 +1073,29 @@ module.exports = function (router){
 
     // get blood request
     router.get('/getRequestData/:requestID', auth.ensureLoggedIn, function (req, res) {
-        BloodRequest.findOne({ _id : req.params.requestID }, function (err, bloodRequest) {
+
+        BloodRequest.aggregate([
+            {   $match : {
+                    _id : mongoose.Types.ObjectId(req.params.requestID)
+                }
+            },
+            {
+                $lookup: {
+                    from : "users",
+                    localField : "requestedBy",
+                    foreignField : "email",
+                    as : "author"
+                }
+            },
+            {
+                $lookup: {
+                    from : "users",
+                    localField : "accepted",
+                    foreignField : "email",
+                    as : "donors"
+                }
+            }
+        ]).exec( function (err, bloodRequest) {
             if(err) {
                 res.json({
                     success : false,
@@ -967,9 +1107,44 @@ module.exports = function (router){
                     message : 'Blood requests not found.'
                 })
             } else {
-                res.json({
-                    success : true,
-                    bloodRequest : bloodRequest
+
+                BloodRequest.findOne({ _id : req.params.requestID }).select('views').exec(function (err, request) {
+                    if(err) {
+                        res.json({
+                            success : false,
+                            message : 'Something went wrong!'
+                        })
+                    } else {
+                        if(!request) {
+                            res.json({
+                                success : false,
+                                message : 'Request not found.'
+                            })
+                        } else {
+                            if(request.views) {
+                                if(request.views.indexOf(req.decoded.email) === -1) {
+                                    request.views.push(req.decoded.email);
+                                }
+                            } else {
+                                request.views.push(req.decoded.email);
+                            }
+
+                            request.save(function (err) {
+                                if(err) {
+                                    res.json({
+                                        success : false,
+                                        message : 'Something went wrong!'
+                                    })
+                                } else {
+                                    res.json({
+                                        success : true,
+                                        bloodRequest : bloodRequest
+                                    })
+                                }
+                            });
+
+                        }
+                    }
                 })
             }
         })
@@ -1130,6 +1305,134 @@ module.exports = function (router){
             }
         })
     });
+
+    // Show willingness to requester
+    router.post('/showWillingness/:requestID', auth.ensureLoggedIn, function (req , res) {
+        BloodRequest.findOne({ _id: req.params.requestID }).select('accepted bloodGroup status').exec(function (err, request) {
+            if(err) {
+                res.json({
+                    success : false,
+                    message : 'Something went wrong!'
+                })
+            } else {
+                if(!request) {
+                    res.json({
+                        success : false,
+                        message : 'Request not found.'
+                    })
+                } else {
+
+                    if(request.status === 'closed') {
+                        res.json({
+                            success : false,
+                            message : 'Blood request already closed.'
+                        })
+                    } else if(request.requestedBy === req.decoded.email) {
+                        res.json({
+                            success : false,
+                            message : 'You can\'t perform this action in your request.'
+                        })
+                    } else {
+                        if(request.accepted) {
+                            if(request.accepted.indexOf(req.decoded.email) === -1) {
+
+                                User.findOne({ email : req.decoded.email }).select('bloodGroup available').exec(function (err, donor) {
+                                    if(err) {
+                                        res.json({
+                                            success : false,
+                                            message : 'Something went wrong!'
+                                        })
+                                    } else {
+                                        if(!donor) {
+                                            res.json({
+                                                success : false,
+                                                message : 'Donor not found.'
+                                            })
+                                        } else {
+                                            if(donor.bloodGroup !== request.bloodGroup) {
+                                                res.json({
+                                                    success : false,
+                                                    message : 'Your blood group didn\'t match.'
+                                                })
+                                            } else if(donor.available === 'No' || donor.available !== 'Yes') {
+                                                res.json({
+                                                    success : false,
+                                                    message : 'AVAILABLE : NO ! Update your availability in profile page to donate now.'
+                                                })
+                                            } else {
+                                                request.accepted.push(req.decoded.email);
+
+                                                request.save(function (err) {
+                                                    if(err) {
+                                                        res.json({
+                                                            success : false,
+                                                            message : 'Something went wrong!'
+                                                        })
+                                                    } else {
+                                                        res.json({
+                                                            success : true,
+                                                            message : 'We have notified the author!'
+                                                        })
+                                                    }
+                                                })
+                                            }
+                                        }
+                                    }
+                                });
+                            } else {
+                                res.json({
+                                    success : false,
+                                    message : 'Already accepted.'
+                                })
+                            }
+                        }
+                    }
+                }
+            }
+        })
+    });
+
+    // update profile picture
+    router.post('/updateProfilePictureURL', auth.ensureLoggedIn, function (req, res) {
+        console.log(req.body);
+        User.findOne({ email : req.decoded.email }).select('profile_url firstName').exec(function (err, user) {
+            if(err) {
+                console.log(err);
+                res.json({
+                    success : false,
+                    message : 'Something went wrong!'
+                })
+            } else {
+                if(!user) {
+                    res.json({
+                        success : false,
+                        message : 'User not found.'
+                    })
+                } else {
+
+                    console.log(req.body.filename);
+                    user.profile_url = req.body.filename;
+
+                    console.log(user.profile_url)
+
+                    user.save(function (err) {
+                        if(err) {
+                            console.log(err);
+                            res.json({
+                                success : false,
+                                message : 'Something went wrong!'
+                            })
+                        } else {
+                            res.json({
+                                success : true,
+                                message : 'Profile picture updated.'
+                            })
+                        }
+                    })
+                }
+            }
+        })
+    })
 
     return router;
 };

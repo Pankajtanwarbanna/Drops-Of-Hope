@@ -1,5 +1,15 @@
-angular.module('userCtrl',['userServices'])
+angular.module('userCtrl',['userServices','fileModelDirective','uploadFileService'])
 
+
+// File Upload
+    /*
+uploadFile.upload($scope.file).then(function (data) {
+    console.log(data);
+})
+uploadFile.uploadImage($scope.file).then(function (data) {
+    console.log(data);
+})
+*/
 .controller('regCtrl', function ($scope, $http, $timeout, $location,user) {
 
     var app = this;
@@ -103,29 +113,65 @@ angular.module('userCtrl',['userServices'])
 })
 
 // user profile controller
-.controller('profileCtrl', function (user) {
+.controller('profileCtrl', function (user, uploadFile, $scope) {
 
     let app = this;
 
     // user profile details
-    user.getUserProfile().then(function (data) {
-        console.log(data);
-        if(data.data.success) {
-            app.user = data.data.user;
-        } else {
-            app.errorMsg = data.data.message;
-        }
-    });
+    function getUserProfileFunction() {
+        user.getUserProfile().then(function (data) {
+            console.log(data);
+            if(data.data.success) {
+                app.user = data.data.user;
+            } else {
+                app.errorMsg = data.data.message;
+            }
+        });
+    }
+
+    getUserProfileFunction();
 
     // user posted blood requests
-    user.getUserPostedBloodRequests().then(function (data) {
-        console.log(data);
-        if(data.data.success) {
-            app.requests = data.data.requests;
-        } else {
-            app.errorMsg = data.data.message;
-        }
-    })
+    function getUserPostedBloodRequestsFunction() {
+        user.getUserPostedBloodRequests().then(function (data) {
+            console.log(data);
+            if(data.data.success) {
+                app.requests = data.data.requests;
+            } else {
+                app.errorMsg = data.data.message;
+            }
+        });
+    }
+
+    getUserPostedBloodRequestsFunction();
+
+    app.loading = false;
+
+    // upload profile picture
+    app.updateProfilePicture = function() {
+        app.loading = true;
+        uploadFile.uploadImage($scope.file).then(function (data) {
+            //console.log(data);
+            let filenameObj = {};
+            filenameObj.filename = data.data.filename;
+            if(data.data.success) {
+                user.updateProfilePictureURL(filenameObj).then(function (status) {
+                    //console.log(status);
+                    if(status.data.success) {
+                        app.profileUpdateSuccessMsg = data.data.message;
+                        getUserProfileFunction();
+                        app.loading = false;
+                    } else {
+                        app.loading = false;
+                        app.errorMsg = data.data.message;
+                    }
+                });
+            } else {
+                app.loading = false;
+                app.errorMsg = data.data.message;
+            }
+        })
+    };
 })
 
 // user account settings controller
@@ -167,12 +213,29 @@ angular.module('userCtrl',['userServices'])
     app.loading = true;
 
     // get request data
-    user.getRequestData($routeParams.requestID).then(function (data) {
-        console.log(data);
-        if(data.data.success) {
-            app.bloodRequest = data.data.bloodRequest;
-        } else {
-            app.errorMsg = data.data.message;
-        }
-    })
+    function getBloodRequestData() {
+        user.getRequestData($routeParams.requestID).then(function (data) {
+            console.log(data);
+            if(data.data.success) {
+                app.bloodRequest = data.data.bloodRequest[0];
+            } else {
+                app.errorMsg = data.data.message;
+            }
+        });
+    }
+
+    getBloodRequestData();
+
+    // show willingness to donate
+    app.showWillingness = function () {
+        user.showWillingness($routeParams.requestID).then(function (data) {
+            console.log(data);
+            if(data.data.success) {
+                app.willingnessSuccessMsg = data.data.message;
+                getBloodRequestData();
+            } else {
+                app.willingnessErrorMsg = data.data.message;
+            }
+        })
+    }
 });

@@ -30,6 +30,14 @@ var app = angular.module('userRoutes', ['ngRoute'])
                 controllerAs : 'profile'
             })
 
+            // Edit User Profile Pages
+            .when('/editProfile', {
+                templateUrl : '/app/views/users/editProfile.html',
+                authenticated : true,
+                controller : 'profileCtrl',
+                controllerAs : 'profile'
+            })
+
             .when('/settings', {
                 templateUrl : '/app/views/users/settings.html',
                 authenticated : true,

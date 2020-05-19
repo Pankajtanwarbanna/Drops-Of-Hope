@@ -33,9 +33,13 @@
     <script src="app/controllers/managementCtrl.js"></script>
     <script src="app/controllers/emailCtrl.js"></script>
 
+    <!-- Angular Directives -->
+    <script src="app/directives/fileModel.js"></script>
+
     <!-- Angular Services -->
     <script src="app/services/userServices.js"></script>
     <script src="app/services/authServices.js"></script>
+    <script src="app/services/uploadFileService.js"></script>
 
 </head>
 
@@ -131,18 +135,14 @@
                     </li>
                     <li class="dropdown">
                         <a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
-                            <img alt="image" src="assets/img/user.png" class="user-img-radious-style">
+                            <img alt="image" src="/assets/uploads/{{ main.profile_url }}" class="user-img-radious-style">
                             <span class="d-sm-none d-lg-inline-block"></span>
                         </a>
                         <div class="dropdown-menu dropdown-menu-right pullDown">
                             <div class="dropdown-title">Hello {{ main.firstName }}</div>
-                            <a href="profile.html" class="dropdown-item has-icon">
+                            <a href="/profile" class="dropdown-item has-icon">
                                 <i class="far fa-user"></i>
                                 Profile
-                            </a>
-                            <a href="timeline.html" class="dropdown-item has-icon">
-                                <i class="fas fa-bolt"></i>
-                                Activities
                             </a>
                             <a href="/settings" class="dropdown-item has-icon">
                                 <i class="fas fa-cog"></i>
@@ -191,6 +191,7 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li><a href="/profile" class="nav-link">View Profile</a></li>
+                                <li><a href="/editProfile" class="nav-link">Edit Profile</a></li>
                                 <li><a href="/settings" class="nav-link">Account Settings</a></li>
                             </ul>
                         </li>

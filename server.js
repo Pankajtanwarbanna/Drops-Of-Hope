@@ -15,6 +15,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.static(__dirname + '/public'));
 // diff. front end and backend routes
 app.use('/api', apiRoutes);
+global.__basedir = __dirname;
 
 // connecting to mongo database
 mongoose.connect('mongodb://localhost:27017/drops-of-hope', { useNewUrlParser: true, useUnifiedTopology: true  }, function (err) {

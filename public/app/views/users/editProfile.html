@@ -1,0 +1,205 @@
+<!-- Main Content -->
+<div class="main-content">
+    <section class="section">
+        <div class="section-body">
+            <h2 style="margin-top: -16px" class="section-title">My Profile</h2>
+            <p class="section-lead">
+                Hey {{ profile.user.firstName }}, here is your profile details!
+            </p>
+            <div class="row mt-sm-4">
+                <div class="col-12 col-md-12 col-lg-4">
+                    <div class="card author-box">
+                        <div class="card-body">
+                            <div class="author-box-center">
+                                <img alt="image" src="assets/uploads/{{ profile.user.profile_url }}" class="rounded-circle author-box-picture">
+                                <div class="clearfix"></div>
+                                <div class="author-box-name">
+                                    {{ profile.user.firstName }} {{ profile.user.lastName }}
+                                </div>
+                                <div class="author-box-job">Blood Donor</div>
+                            </div>
+                            <div class="text-center">
+                                <form ng-submit="profile.updateProfilePicture();" ng-show="!profile.profileUpdateSuccessMsg">
+                                    <div class="form-group">
+                                        <input type="file" class="mt-3" file-model="file.thumbnail" name="thumbnail" required>
+                                        <button type="submit" ng-show="!profile.loading" class="mt-4 btn btn-danger btn-sm">Update Now</button>
+                                    </div>
+                                </form>
+
+                                <!-- Loading Msg -->
+                                <div class="form-group text-center" ng-show="profile.loading">
+                                    <img src="/assets/img/preload.gif" style="width: 100px;height: 100px;">
+                                    <h6 class="text-muted">Please wait, uploading your profile picture...</h6>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">
+                        <div class="card-header">
+                            <h4>Personal Details</h4>
+                        </div>
+                        <div class="card-body">
+                            <div>
+                                <p class="clearfix">
+                                    <span style="font-weight: bold " class="float-left">
+                                      Email
+                                    </span>
+                                    <span style="color:darkslategrey" class="float-right ">
+                                      {{ profile.user.email }}
+                                    </span>
+                                </p>
+                                <p class="clearfix">
+                                    <span style="font-weight: bold " class="float-left">
+                                      Contact No.
+                                    </span>
+                                    <span style="color:darkslategrey" class="float-right">
+                                      +91 {{ profile.user.contactNo }}
+                                    </span>
+                                </p>
+                                <p class="clearfix">
+                                    <span style="font-weight: bold " class="float-left">
+                                      Blood Group
+                                    </span>
+                                    <span style="color:darkslategrey" class="float-right">
+                                      {{ profile.user.bloodGroup }}
+                                    </span>
+                                </p>
+                                <p class="clearfix">
+                                    <span style="font-weight: bold " class="float-left">
+                                      Date of Birth
+                                    </span>
+                                    <span class="float-right" ng-if="profile.user.dob">
+                                      {{ profile.user.dob }}
+                                    </span>
+                                    <span style="color:darkslategrey" class="float-right" ng-if="!profile.user.dob">
+                                      N/A
+                                    </span>
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12 col-md-12 col-lg-8">
+                    <div class="card card-danger">
+                        <div class="card-header">
+                            <h4>Register</h4>
+                        </div>
+                        <div class="card-body">
+
+                            <!-- Success -->
+                            <div class="form-group text-center" ng-show="register.successMsg">
+                                <img src="/assets/img/success.gif" style="width: 150px;height: 150px;">
+                                <h6 class="text-success">Success! {{ register.successMsg }}</h6>
+                            </div>
+
+                            <form ng-submit="register.regUser(regData);" ng-if="!register.successMsg">
+                                <div class="row">
+                                    <div class="col-12 col-md-6 col-lg-6">
+                                        <div class="form-group">
+                                            <label>First Name</label>
+                                            <input type="text" class="form-control" ng-model="register.regData.firstName" required>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6 col-lg-6">
+                                        <div class="form-group">
+                                            <label>Last Name</label>
+                                            <input type="text" class="form-control" ng-model="register.regData.lastName" required>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-12 col-md-6 col-lg-6">
+                                        <div class="form-group">
+                                            <label>Blood Group</label>
+                                            <select class="form-control" ng-model="register.regData.bloodGroup" required>
+                                                <option value="">-- Select Blood Group --</option>
+                                                <option ng-repeat="bloodGroup in main.bloodGroups" ng-value="bloodGroup">{{ bloodGroup }}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 col-md-6 col-lg-6">
+                                        <div class="form-group">
+                                            <label>Contact No.</label>
+                                            <div class="input-group mb-2">
+                                                <div class="input-group-prepend">
+                                                    <div class="input-group-text"> +91 </div>
+                                                </div>
+                                                <input type="text" class="form-control" ng-model="register.regData.contactNo" required>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+                                    <div class="col-12 col-md-6 col-lg-6">
+                                        <div class="form-group">
+                                            <label>Email</label>
+                                            <input type="email" class="form-control" ng-model="register.regData.email" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 col-md-6 col-lg-6">
+                                        <div class="form-group">
+                                            <label>Available for donating blood?</label>
+                                            <select class="form-control" ng-model="register.regData.available" required>
+                                                <option value="">-- Select Willingness --</option>
+                                                <option value="Yes">Yes</option>
+                                                <option value="No">No</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="row">
+
+                                    <div class="col-12 col-md-6 col-lg-6">
+                                        <div class="form-group">
+                                            <label class="d-block">Password</label>
+                                            <input type="password" class="form-control" name="password" ng-model="register.regData.password" required>
+                                        </div>
+                                    </div>
+
+                                    <div class="col-12 col-md-6 col-lg-6">
+                                        <div class="form-group">
+                                            <label class="d-block">Password Confirmation</label>
+                                            <input type="password" class="form-control" ng-model="register.regData.confirmPassword" required>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <!--<div class="form-group">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" name="agree" class="custom-control-input" id="agree">
+                                        <label class="custom-control-label" for="agree">I agree with the terms and conditions</label>
+                                    </div>
+                                </div>-->
+
+                                <!-- Error -->
+                                <div class="form-group text-center" ng-show="register.errorMsg">
+                                    <img src="/assets/img/failed.png" style="width: 50px;height: 50px;">
+                                    <h6 class="text-danger">Oops! {{ register.errorMsg }}</h6>
+                                </div>
+
+                                <div class="form-group" ng-if="!register.loading">
+                                    <button type="submit" class="btn btn-danger btn-lg btn-block">
+                                        Save Changes
+                                    </button>
+                                </div>
+
+                                <!-- Loading Msg -->
+                                <div class="form-group text-center" ng-show="register.loading">
+                                    <img src="/assets/img/preload.gif" style="width: 100px;height: 100px;">
+                                    <h6 class="text-muted">Please wait, creating account...</h6>
+                                </div>
+
+                            </form>
+                        </div>
+                        <div class="mb-4 text-muted text-center">
+                            Already Registered? <a href="/login">Login</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
