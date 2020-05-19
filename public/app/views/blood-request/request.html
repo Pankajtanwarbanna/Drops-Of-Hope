@@ -7,15 +7,15 @@
                 <div class="col-12">
                     <div class="card profile-widget">
                         <div class="profile-widget-header">
-                            <img alt="image" src="assets/img/users/user-1.png" class="rounded-circle profile-widget-picture">
+                            <p style="background-image: url('assets/img/bg/bgroup.jpeg');border-radius: 50%;height:14vh;font-size: 4vh;color: white;padding-top: 5vh;padding-left:3.5vh;font-weight:bolder" class="profile-widget-picture">{{ request.bloodRequest.bloodGroup}}</p>
                             <div class="profile-widget-items">
                                 <div class="profile-widget-item">
                                     <div class="profile-widget-item-label">Unit(s) </div>
                                     <div class="profile-widget-item-value">{{ request.bloodRequest.unitsRequired }}</div>
                                 </div>
                                 <div class="profile-widget-item">
-                                    <div class="profile-widget-item-label">Blood Group</div>
-                                    <div class="profile-widget-item-value">{{ request.bloodRequest.bloodGroup }}</div>
+                                    <div class="profile-widget-item-label">Blood Required Till</div>
+                                    <div class="profile-widget-item-value">{{ request.bloodRequest.requiredDate  | date : 'dd MMMM yyyy' }}</div>
                                 </div>
                                 <div class="profile-widget-item">
                                     <div class="profile-widget-item-label">Critical?</div>
@@ -24,106 +24,106 @@
                             </div>
                         </div>
                         <div class="profile-widget-description">
-                            <div class="profile-widget-name">{{ request.bloodRequest.unitsRequired}} Blood Request by {{ request.bloodRequest.name }}
+                            <div class="profile-widget-name">Requested by {{ request.bloodRequest.name }}
                                 <div class="text-muted d-inline font-weight-normal">
                                     <div class="badge badge-success">Opened Request</div>
                                 </div>
                             </div>
                             <hr>
                             <div class="row">
-                                <div class="col-4">
+                                <div class="col-lg-4 col-md-12">
                                     <div class="support-ticket media pb-1 mb-3">
-                                        <img src="assets/img/users/user-1.png" class="user-img mr-2" alt="">
+                                        <img src="assets/img/icons/name.png" class="mr-2" style="height:5.5vh;width:5.5vh" alt="">
                                         <div class="media-body ml-3">
-                                            <span class="font-weight-bold">{{ request.bloodRequest.patientName }}</span>
+                                            <span>Patient's Name</span>
                                             <br>
-                                            <small class="text-muted">Patient Name</small>
+                                            <medium class="font-bold">{{ request.bloodRequest.patientName }}</medium>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-4">
+                                <div class="col-lg-4 col-md-12">
                                     <div class="support-ticket media pb-1 mb-3">
-                                        <img src="assets/img/users/user-1.png" class="user-img mr-2" alt="">
+                                        <img src="assets/img/icons/age.png"  class="mr-2" style="height:7vh;width:7vh"  alt="">
                                         <div class="media-body ml-3">
-                                            <span class="font-weight-bold">{{ request.bloodRequest.patientAge }} Years</span>
+                                            <span >Patient's Age</span>
                                             <br>
-                                            <small class="text-muted">Patient Age</small>
+                                            <medium class="font-bold">{{ request.bloodRequest.patientAge }} Years</medium>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-4">
+                                <div class="col-lg-4 col-md-12">
                                     <div class="support-ticket media pb-1 mb-3">
-                                        <img src="assets/img/users/user-1.png" class="user-img mr-2" alt="">
+                                        <img src="assets/img/icons/gender.png"  class="mr-2" style="height:6vh;width:6vh" alt="">
                                         <div class="media-body ml-3">
-                                            <span class="font-weight-bold">{{ request.bloodRequest.patientGender }}</span>
+                                            <span>Gender</span>
                                             <br>
-                                            <small class="text-muted">Gender</small>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="row">
-                                <div class="col-4">
-                                    <div class="support-ticket media pb-1 mb-3">
-                                        <img src="assets/img/users/user-1.png" class="user-img mr-2" alt="">
-                                        <div class="media-body ml-3">
-                                            <span class="font-weight-bold">+91 {{ request.bloodRequest.contactNo }}</span>
-                                            <br>
-                                            <small class="text-muted">Contact No.</small>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-4">
-                                    <div class="support-ticket media pb-1 mb-3">
-                                        <img src="assets/img/users/user-1.png" class="user-img mr-2" alt="">
-                                        <div class="media-body ml-3">
-                                            <span class="font-weight-bold">{{ request.bloodRequest.hospitalName }}</span>
-                                            <br>
-                                            <small class="text-muted">Hospital Name</small>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-4">
-                                    <div class="support-ticket media pb-1 mb-3">
-                                        <img src="assets/img/users/user-1.png" class="user-img mr-2" alt="">
-                                        <div class="media-body ml-3">
-                                            <span class="font-weight-bold">{{ request.bloodRequest.hospitalAddress }}</span>
-                                            <br>
-                                            <small class="text-muted">Hospital Address</small>
+                                            <medium class="font-bold">{{ request.bloodRequest.patientGender }}</medium>
                                         </div>
                                     </div>
                                 </div>
                             </div>
 
                             <div class="row">
-                                <div class="col-4">
+                                <div class="col-lg-4 col-md-12">
                                     <div class="support-ticket media pb-1 mb-3">
-                                        <img src="assets/img/users/user-1.png" class="user-img mr-2" alt="">
+                                        <img src="assets/img/icons/call.png"  class="mr-2" style="height:5.5vh;width:5.5vh"  alt="">
                                         <div class="media-body ml-3">
-                                            <span class="font-weight-bold">{{ request.bloodRequest.purpose }}</span>
+                                            <span>Contact No.</span>
                                             <br>
-                                            <small class="text-muted">Purpose</small>
+                                            <medium class="font-bold">+91 {{ request.bloodRequest.contactNo }}</medium>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-4">
+                                <div class="col-lg-4 col-md-12">
                                     <div class="support-ticket media pb-1 mb-3">
-                                        <img src="assets/img/users/user-1.png" class="user-img mr-2" alt="">
+                                        <img src="assets/img/icons/hospital.png"  class="mr-2" style="height:7vh;width:7vh"  alt="">
                                         <div class="media-body ml-3">
-                                            <span class="font-weight-bold">{{ request.bloodRequest.status }}</span>
+                                            <span>Hospital Name</span>
                                             <br>
-                                            <small class="text-muted">Request Status</small>
+                                            <medium class="font-bold">{{ request.bloodRequest.hospitalName }}</medium>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-4">
+                                <div class="col-lg-4 col-md-12">
                                     <div class="support-ticket media pb-1 mb-3">
-                                        <img src="assets/img/users/user-1.png" class="user-img mr-2" alt="">
+                                        <img src="assets/img/icons/maps-and-flags.png"  class="mr-2" style="height:6vh;width:6vh"  alt="">
                                         <div class="media-body ml-3">
-                                            <span class="font-weight-bold">{{ request.bloodRequest.timestamp | date : 'dd MMMM yyyy'}}</span>
+                                            <span>Hospital Address</span>
                                             <br>
-                                            <small class="text-muted">Posted on</small>
+                                            <medium class="font-bold">{{ request.bloodRequest.hospitalAddress }}</medium>>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-4 col-md-12">
+                                    <div class="support-ticket media pb-1 mb-3">
+                                        <img src="assets/img/icons/purpose.png"  class="mr-2" style="height:6vh;width:6vh"  alt="">
+                                        <div class="media-body ml-3">
+                                            <span >Purpose</span>
+                                            <br>
+                                            <medium class="font-bold">{{ request.bloodRequest.purpose }}</medium>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-12">
+                                    <div class="support-ticket media pb-1 mb-3">
+                                        <img src="assets/img/icons/status.png"  class="mr-2" style="height:7vh;width:7vh"  alt="">
+                                        <div class="media-body ml-3">
+                                            <span >Request Status</span>
+                                            <br>
+                                            <medium class="font-bold">{{ request.bloodRequest.status }}</medium>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-4 col-md-12">
+                                    <div class="support-ticket media pb-1 mb-3">
+                                        <img src="assets/img/icons/interface.png"  class="mr-2" style="height:6vh;width:6vh"  alt="">
+                                        <div class="media-body ml-3">
+                                            <span>Posted On</span>
+                                            <br>
+                                            <medium class="font-bold">{{ request.bloodRequest.timestamp | date : 'HH:MM:ss dd MMMM yyyy'}}</medium>>
                                         </div>
                                     </div>
                                 </div>
