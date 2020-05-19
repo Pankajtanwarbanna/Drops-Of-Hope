@@ -5,24 +5,46 @@
             <p class="section-lead">
                 Basically, these are people near you in need.
             </p>
-            <form class="form-inline mr-auto">
-                <div class="search-element">
-                    <input class="form-control" type="search" placeholder="Search by Blood Group" aria-label="Search" data-width="200">
-                    <button class="btn" type="submit">
-                        <i class="fas fa-search"></i>
-                    </button>
-                </div>
-            </form>
 
+            <div class="row">
+                <div class="col-12">
+                    <div class="card card-danger">
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-12 col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <div class="form-group">
+                                            <label>Blood Group</label>
+                                            <select class="form-control" ng-model="bg" required>
+                                                <option value="">-- Select Blood Group --</option>
+                                                <option ng-repeat="bloodGroup in main.bloodGroups" ng-value="bloodGroup">{{ bloodGroup }}</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 col-md-6 col-lg-6">
+                                    <div class="form-group">
+                                        <label>Patient Condition</label>
+                                        <select class="form-control" ng-model="condition" required>
+                                            <option value="">-- Showing all Requests --</option>
+                                            <option value="Yes"> Only Critical Requests  </option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br>
             <!-- Loading Msg -->
             <div class="form-group text-center" ng-show="viewAllBloodRequest.loading">
                 <img src="/assets/img/preload.gif" style="width: 100px;height: 100px;">
                 <h6 class="text-muted">Please wait, while we fetch the data...</h6>
             </div>
 
-            <br>
             <div class="row" ng-if="!viewAllBloodRequest.loading">
-                <div class="col-12 col-md-6 col-lg-6" ng-repeat="bloodRequest in viewAllBloodRequest.bloodRequests">
+                <div class="col-12 col-md-6 col-lg-6" ng-repeat="bloodRequest in viewAllBloodRequest.bloodRequests | filter : { bloodGroup : bg , condition : condition }">
                     <div class="card card-danger">
                         <div class="card-header row">
                             <div class="col-md-12 col-lg-2" style="background-image: url('assets/img/bg/bgroup.jpeg'); border-radius: 1vh" >
@@ -31,7 +53,7 @@
                             <div style="margin-left: 1vh" class="col-lg-9 col-md-12">
                                 <div style="margin-top: 1vh;" class="row">
                                     <div class="col-9">
-                                        <h4 style="color: darkslategrey; font-weight: bold;">{{ bloodRequest.patientName | uppercase  }}</h4>
+                                        <h4 style="color: darkslategrey; font-weight: bold;">{{ bloodRequest.patientName | uppercase  }} <i class="fas fa-heartbeat text-danger" style="font-size: large" ng-if="bloodRequest.condition === 'Yes'"></i></h4>
                                     </div>
                                     <div class="col-2">
                                         <div style="margin-left: 2vh" class="card-header-action">

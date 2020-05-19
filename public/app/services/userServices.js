@@ -78,5 +78,10 @@ angular.module('userServices',[])
         return $http.post('/api/updatePassword', passwordData);
     };
 
+    // get user posted blood requests
+    userFactory.getUserPostedBloodRequests = function () {
+        return $http.get('/api/getUserPostedBloodRequests');
+    };
+
     return userFactory;
 });

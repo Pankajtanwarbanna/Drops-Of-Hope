@@ -4,78 +4,43 @@ angular.module('userCtrl',['userServices'])
 
     var app = this;
 
-    // blood groups array
-    app.bloodGroups = [
-        'A+',
-        'A-',
-        'B+',
-        'B-',
-        'AB+',
-        'AB-',
-        'A1+',
-        'A1-',
-        'A1B+',
-        'A1B-',
-        'A2+',
-        'A2-',
-        'A2B+',
-        'A2B-',
-        'O+',
-        'O-'
-    ];
-
     // loading
     app.loading = false;
 
     this.regUser = function (regData) {
 
-        //console.log(app.regData);
+        console.log(app.regData);
 
         app.successMsg = '';
         app.errorMsg = '';
         app.loading = true;
 
-        user.create(app.regData).then(function (data) {
+        if(app.regData.password !== app.regData.confirmPassword) {
+            app.loading = false;
+            app.errorMsg = 'Password didn\'t match.'
+        } else {
+            user.create(app.regData).then(function (data) {
 
-            console.log(data);
-            if(data.data.success) {
-                app.loading = false;
-                app.successMsg = data.data.message + ' Redirecting to home page...';
-                $timeout(function () {
-                    $location.path('/');
-                }, 2000);
-                
-            } else {
-                app.loading = false;
-                app.errorMsg = data.data.message;
-            }
-        });
+                console.log(data);
+                if(data.data.success) {
+                    app.loading = false;
+                    app.successMsg = data.data.message + ' Redirecting to home page...';
+                    $timeout(function () {
+                        $location.path('/');
+                    }, 2000);
+
+                } else {
+                    app.loading = false;
+                    app.errorMsg = data.data.message;
+                }
+            });
+        }
     };
 })
 
 // Post Blood Request Controller
 .controller('bloodRequestCtrl', function (user) {
     let app = this;
-
-    // blood groups array
-    app.bloodGroups = [
-        'A+',
-        'A-',
-        'B+',
-        'B-',
-        'AB+',
-        'AB-',
-        'A1+',
-        'A1-',
-        'A1B+',
-        'A1B-',
-        'A2+',
-        'A2-',
-        'A2B+',
-        'A2B-',
-        'O+',
-        'O-'
-    ];
 
     // loading false
     app.loading = false;
@@ -104,26 +69,6 @@ angular.module('userCtrl',['userServices'])
 .controller('viewAllBloodRequestCtrl', function (user) {
     let app = this;
 
-    // blood groups array
-    app.bloodGroups = [
-        'A+',
-        'A-',
-        'B+',
-        'B-',
-        'AB+',
-        'AB-',
-        'A1+',
-        'A1-',
-        'A1B+',
-        'A1B-',
-        'A2+',
-        'A2-',
-        'A2B+',
-        'A2B-',
-        'O+',
-        'O-'
-    ];
-
     // loading
     app.loading = true;
 
@@ -146,26 +91,6 @@ angular.module('userCtrl',['userServices'])
 
     let app = this;
 
-    // blood groups array
-    app.bloodGroups = [
-        'A+',
-        'A-',
-        'B+',
-        'B-',
-        'AB+',
-        'AB-',
-        'A1+',
-        'A1-',
-        'A1B+',
-        'A1B-',
-        'A2+',
-        'A2-',
-        'A2B+',
-        'A2B-',
-        'O+',
-        'O-'
-    ];
-
     // get all donors 
     user.getDonors().then(function (data) {
         console.log(data.data.donors);
@@ -182,10 +107,21 @@ angular.module('userCtrl',['userServices'])
 
     let app = this;
 
+    // user profile details
     user.getUserProfile().then(function (data) {
         console.log(data);
         if(data.data.success) {
             app.user = data.data.user;
+        } else {
+            app.errorMsg = data.data.message;
+        }
+    });
+
+    // user posted blood requests
+    user.getUserPostedBloodRequests().then(function (data) {
+        console.log(data);
+        if(data.data.success) {
+            app.requests = data.data.requests;
         } else {
             app.errorMsg = data.data.message;
         }

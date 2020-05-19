@@ -1106,6 +1106,31 @@ module.exports = function (router){
         });
     });
 
+    // get user posted blood requests
+    router.get('/getUserPostedBloodRequests',  auth.ensureLoggedIn, function (req,res ) {
+
+        BloodRequest.find({ requestedBy : req.decoded.email }).select('bloodGroup patientName unitsRequired status timestamp').lean().exec(function (err, requests) {
+            if(err) {
+                res.json({
+                    success : false,
+                    message : 'Something went wrong!'
+                })
+            } else {
+                if(!requests) {
+                    res.json({
+                        success : false,
+                        message : 'Requests not found.'
+                    })
+                } else {
+                    res.json({
+                        success : true,
+                        requests : requests
+                    })
+                }
+            }
+        })
+    });
+
     return router;
 };
 

@@ -15,7 +15,7 @@
                                             <label>Blood Group</label>
                                             <select class="form-control" ng-model="bg" required>
                                                 <option value="">-- Select Blood Group --</option>
-                                                <option ng-repeat="bloodGroup in findDonor.bloodGroups" ng-value="bloodGroup">{{ bloodGroup }}</option>
+                                                <option ng-repeat="bloodGroup in main.bloodGroups" ng-value="bloodGroup">{{ bloodGroup }}</option>
                                             </select>
                                         </div>
                                     </div>
@@ -23,10 +23,10 @@
                                 <div class="col-12 col-md-6 col-lg-6">
                                     <div class="form-group">
                                         <label>Donor Status</label>
-                                        <select class="form-control" ng-model="bloodRequest.requestData.bloodGroup" required>
-                                            <option value="">-- Select Status --</option>
-                                            <option value="all"> All </option>
-                                            <option value="available"> Available </option>
+                                        <select class="form-control" ng-model="status" required>
+                                            <option value="">-- Showing all donors --</option>
+                                            <option value="Yes"> Only Available </option>
+                                            <option value="No"> Not Available </option>
                                         </select>
                                     </div>
                                 </div>
@@ -36,15 +36,16 @@
                 </div>
             </div>
 
-            <div class="row">
+            <div class="row" ng-if="bg || status">
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <h4>Donors</h4>
+                            <h4>{{ donors.length }} Donor(s) found</h4>
+
                             <div class="card-header-form">
                                 <form>
                                     <div class="input-group">
-                                        <input type="text" class="form-control" placeholder="Search">
+                                        <input type="text" class="form-control" placeholder="Search" ng-model="searchDonor">
                                         <div class="input-group-btn">
                                             <button class="btn btn-primary"><i class="fas fa-search"></i></button>
                                         </div>
@@ -57,14 +58,14 @@
                                 <table class="table">
                                     <tr>
                                         <th>#</th>
-                                        <th>Name {{ bg }}</th>
+                                        <th>Name </th>
                                         <th>Blood Group</th>
                                         <th>Contact No.</th>
-                                        <th>Due Date</th>
+                                        <th>Email</th>
                                         <th>Status</th>
-                                        <th>Action</th>
+                                        <th>Report</th>
                                     </tr>
-                                    <tr ng-repeat="donor in findDonor.donors | filter : bg">
+                                    <tr ng-repeat="donor in donors = (findDonor.donors | filter : { bloodGroup : bg , available : status, firstName : searchDonor }) ">
                                         <td>{{ $index + 1 }}.</td>
                                         <td>
                                             <img alt="image" src="/assets/uploads/images/{{ donor.profile_url }}" class="rounded-circle" width="35" data-toggle="tooltip" title="Wildan Ahdian">
@@ -74,11 +75,12 @@
                                             {{ donor.bloodGroup }}
                                         </td>
                                         <td>+91 {{ donor.contactNo }}</td>
-                                        <td>2018-01-20</td>
+                                        <td>{{ donor.email }}</td>
                                         <td>
-                                            <div class="badge badge-success">Available</div>
+                                            <div ng-if="donor.available == 'Yes'" class="badge badge-success">Available</div>
+                                            <div ng-if="donor.available == 'No'" class="badge badge-warning">Not Available</div>
                                         </td>
-                                        <td><a href="#" class="btn btn-primary">Report</a></td>
+                                        <td><a href="#" class="btn btn-outline-danger"><i class="fas fa-exclamation-triangle"></i></a></td>
                                     </tr>
                                 </table>
                             </div>
