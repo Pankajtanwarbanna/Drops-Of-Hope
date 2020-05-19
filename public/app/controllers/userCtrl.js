@@ -24,9 +24,12 @@ angular.module('userCtrl',['userServices'])
         'O-'
     ];
 
+    // loading
+    app.loading = false;
+
     this.regUser = function (regData) {
 
-        console.log(app.regData);
+        //console.log(app.regData);
 
         app.successMsg = '';
         app.errorMsg = '';

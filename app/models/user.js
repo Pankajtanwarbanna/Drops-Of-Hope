@@ -47,6 +47,10 @@ let userSchema = new mongoose.Schema({
         type : String,
         required : true
     },
+    available : {
+        type : String,
+        required : true
+    },
     profile_url : {
         type : String,
         required : true,

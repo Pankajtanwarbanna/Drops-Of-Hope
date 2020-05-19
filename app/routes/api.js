@@ -26,90 +26,102 @@ module.exports = function (router){
 
         user.firstName = req.body.firstName;
         user.lastName = req.body.lastName;
-        user.email = req.body.email;
-        user.password = req.body.password;
-        user.bloodGroup = req.body.bloodGroup;
-        user.contactNo = req.body.contactNo;
-        user.temporarytoken = jwt.sign({ email : user.email }, secret , { expiresIn : '24h' });
 
-        //console.log(req.body);
-        if(!user.firstName  || !user.lastName || !user.email || !user.password || !user.bloodGroup || !user.contactNo) {
+        // check email is @mnit.ac.in or not.
+        if(req.body.email.split('@').pop() !== "mnit.ac.in") {
             res.json({
                 success : false,
-                message : 'Ensure you filled all entries!'
-            });
+                message : 'Only MNIT official email allowed!'
+            })
         } else {
-            user.save(function(err) {
-                if(err) {
-                    if(err.errors != null) {
-                        // validation errors
-                        if (err.errors.email) {
-                            res.json({
-                                success : false,
-                                message : err.errors.email.message
-                            });
-                        } else if(err.errors.password) {
-                            res.json({
-                                success : false,
-                                message : err.errors.password.message
-                            });
-                        } else {
-                            res.json({
-                                success : false,
-                                message : err
-                            });
-                        }
-                    } else {
-                        // duplication errors
-                        if(err.code === 11000) {
-                            //console.log(err.errmsg);
-                            if(err.errmsg[57] === 'e') {
+            user.email = req.body.email;
+
+            user.password = req.body.password;
+            user.bloodGroup = req.body.bloodGroup;
+            user.contactNo = req.body.contactNo;
+            user.available = req.body.available;
+            user.temporarytoken = jwt.sign({ email : user.email }, secret , { expiresIn : '24h' });
+
+            //console.log(req.body);
+            if(!user.firstName  || !user.lastName || !user.email || !user.password || !user.bloodGroup || !user.contactNo) {
+                res.json({
+                    success : false,
+                    message : 'Ensure you filled all entries!'
+                });
+            } else {
+                user.save(function(err) {
+                    if(err) {
+                        if(err.errors != null) {
+                            // validation errors
+                            if (err.errors.email) {
                                 res.json({
-                                    success: false,
-                                    message: 'Email is already registered.'
+                                    success : false,
+                                    message : err.errors.email.message
                                 });
-                            }  else {
+                            } else if(err.errors.password) {
+                                res.json({
+                                    success : false,
+                                    message : err.errors.password.message
+                                });
+                            } else {
                                 res.json({
                                     success : false,
                                     message : err
                                 });
                             }
                         } else {
-                            res.json({
-                                success: false,
-                                message: err
-                            })
+                            // duplication errors
+                            if(err.code === 11000) {
+                                //console.log(err.errmsg);
+                                if(err.errmsg[57] === 'e') {
+                                    res.json({
+                                        success: false,
+                                        message: 'Email is already registered.'
+                                    });
+                                }  else {
+                                    res.json({
+                                        success : false,
+                                        message : err
+                                    });
+                                }
+                            } else {
+                                res.json({
+                                    success: false,
+                                    message: err
+                                })
+                            }
                         }
+                    } else {
+
+                        let email = {
+                            from: 'DropsOfHope Registration, support@dropsofhope.com',
+                            to: user.email,
+                            subject: 'Activation Link - DropsOfHope Registration',
+                            text: 'Hello '+ user.name + 'Thank you for registering with us.Please find the below activation link Activation link Thank you Team CEO, DropsOfHope',
+                            html: 'Hello <strong>'+ user.name + '</strong>,<br><br>Thank you for registering with us.Please find the below activation link<br><br><a href="http://localhost:8000/activate/'+ user.temporarytoken+'">Activation link</a><br><br>Thank you<br>Team DropsOfHope'
+                        };
+
+                        client.sendMail(email, function(err, info){
+                            if (err ){
+                                console.log(err);
+                                res.json({
+                                    success : true,
+                                    message : 'Account created but email could not be send as email server is not responding. Contact Admin!'
+                                })
+                            }
+                            else {
+                                console.log('Message sent: ' + info.response);
+                                res.json({
+                                    success : true,
+                                    message : 'Account registered! Please check your E-mail inbox for the activation link.'
+                                });
+                            }
+                        });
                     }
-                } else {
-
-                    let email = {
-                        from: 'DropsOfHope Registration, support@dropsofhope.com',
-                        to: user.email,
-                        subject: 'Activation Link - DropsOfHope Registration',
-                        text: 'Hello '+ user.name + 'Thank you for registering with us.Please find the below activation link Activation link Thank you Team CEO, DropsOfHope',
-                        html: 'Hello <strong>'+ user.name + '</strong>,<br><br>Thank you for registering with us.Please find the below activation link<br><br><a href="http://localhost:8000/activate/'+ user.temporarytoken+'">Activation link</a><br><br>Thank you<br>Team DropsOfHope'
-                    };
-
-                    client.sendMail(email, function(err, info){
-                        if (err ){
-                            console.log(err);
-                            res.json({
-                                success : true,
-                                message : 'Account created but email could not be send as email server is not responding. Contact Admin!'
-                            })
-                        }
-                        else {
-                            console.log('Message sent: ' + info.response);
-                            res.json({
-                                success : true,
-                                message : 'Account registered! Please check your E-mail inbox for the activation link.'
-                            });
-                        }
-                    });
-                }
-            });
+                });
+            }
         }
+
     });
 
     // User login API

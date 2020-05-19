@@ -1,13 +1,20 @@
 <section class="section">
     <div class="container mt-5">
         <div class="row">
-            <div class="col-12 col-sm-8 offset-sm-2 col-md-6 offset-md-3 col-lg-6 offset-lg-3 col-xl-4 offset-xl-4">
+            <div class="col-12 col-sm-10 offset-sm-1 col-md-8 offset-md-2 col-lg-8 offset-lg-2 col-xl-8 offset-xl-2">
                 <div class="card card-primary">
                     <div class="card-header">
                         <h4>Login</h4>
                     </div>
                     <div class="card-body">
-                        <form ng-submit="main.doLogin(logData);">
+
+                        <!-- Success -->
+                        <div class="form-group text-center" ng-show="main.successMsg">
+                            <img src="/assets/img/success.gif" style="width: 150px;height: 150px;">
+                            <h6 class="text-success">Success! {{ main.successMsg }}</h6>
+                        </div>
+
+                        <form ng-submit="main.doLogin(logData);" ng-show="!main.successMsg">
                             <div class="form-group">
                                 <label>Email</label>
                                 <input type="email" class="form-control" ng-model="main.logData.email" required>
@@ -16,42 +23,30 @@
                                 <label class="control-label">Password</label>
                                 <input type="password" class="form-control" ng-model="main.logData.password" required>
                             </div>
-                            <div class="form-group">
-                                <div class="custom-control custom-checkbox">
-                                    <input type="checkbox" name="remember" class="custom-control-input" tabindex="3" id="remember-me">
-                                    <label class="custom-control-label" for="remember-me">Remember Me</label>
-                                </div>
+
+                            <!-- Error -->
+                            <div class="form-group text-center" ng-show="main.errorMsg">
+                                <img src="/assets/img/failed.png" style="width: 50px;height: 50px;">
+                                <h6 class="text-danger">Oops! {{ main.errorMsg }}</h6>
                             </div>
-                            <div class="form-group">
+
+                            <div class="form-group" ng-if="!main.loading">
                                 <button type="submit" class="btn btn-primary btn-lg btn-block">
                                     Login
                                 </button>
                             </div>
+
+                            <!-- Loading Msg -->
+                            <div class="form-group text-center" ng-show="main.loading">
+                                <img src="/assets/img/preload.gif" style="width: 100px;height: 100px;">
+                                <h6 class="text-muted">Please wait, logging you in...</h6>
+                            </div>
                         </form>
-                        <div class="alert alert-success" ng-show="main.successMsg">
-                            {{ main.successMsg }}
-                        </div>
-                        <div class="alert alert-danger" ng-show="main.errorMsg">
-                            {{ main.errorMsg }}
-                        </div>
+
                         <div class="mb-4 text-muted text-center">
                              <a href="/forgot">Forgot Password?</a>
                         </div>
-                        <div class="text-center mt-4 mb-3">
-                            <div class="text-job text-muted">Login With Social</div>
-                        </div>
-                        <div class="row sm-gutters">
-                            <div class="col-6">
-                                <a class="btn btn-block btn-social btn-facebook">
-                                    <span class="fab fa-facebook"></span> Facebook
-                                </a>
-                            </div>
-                            <div class="col-6">
-                                <a class="btn btn-block btn-social btn-twitter">
-                                    <span class="fab fa-twitter"></span> Twitter
-                                </a>
-                            </div>
-                        </div>
+
                     </div>
                 </div>
                 <div class="mt-5 text-muted text-center">
