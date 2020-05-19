@@ -70,7 +70,7 @@
                                         <div class="media-body ml-3">
                                             <span>Contact No.</span>
                                             <br>
-                                            <medium class="font-bold">+91 {{ request.bloodRequest.contactNo }}</medium>
+                                            <medium class="font-bold">+91 {{ request.bloodRequest.patientMobile }}</medium>
                                         </div>
                                     </div>
                                 </div>
@@ -90,7 +90,7 @@
                                         <div class="media-body ml-3">
                                             <span>Hospital Address</span>
                                             <br>
-                                            <medium class="font-bold">{{ request.bloodRequest.hospitalAddress }}</medium>>
+                                            <medium class="font-bold">{{ request.bloodRequest.hospitalAddress }}</medium>
                                         </div>
                                     </div>
                                 </div>
@@ -123,7 +123,7 @@
                                         <div class="media-body ml-3">
                                             <span>Posted On</span>
                                             <br>
-                                            <medium class="font-bold">{{ request.bloodRequest.timestamp | date : 'HH:MM:ss dd MMMM yyyy'}}</medium>>
+                                            <medium class="font-bold">{{ request.bloodRequest.timestamp | date : 'HH:MM:ss dd MMMM yyyy'}}</medium>
                                         </div>
                                     </div>
                                 </div>

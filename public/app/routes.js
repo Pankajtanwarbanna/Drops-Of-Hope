@@ -37,6 +37,11 @@ var app = angular.module('userRoutes', ['ngRoute'])
                 controllerAs : 'settings'
             })
 
+            .when('/about', {
+                templateUrl : '/app/views/users/about.html',
+                authenticated : true,
+            })
+
             .when('/activate/:token', {
                 templateUrl : '/app/views/users/activation/activate.html',
                 authenticated : false,

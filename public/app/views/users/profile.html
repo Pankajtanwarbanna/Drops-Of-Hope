@@ -34,37 +34,37 @@
                         <div class="card-body">
                             <div>
                                 <p class="clearfix">
-                                    <span class="float-left">
+                                    <span style="font-weight: bold " class="float-left">
                                       Email
                                     </span>
-                                    <span class="float-right text-muted">
+                                    <span style="color:darkslategrey" class="float-right ">
                                       {{ profile.user.email }}
                                     </span>
                                 </p>
                                 <p class="clearfix">
-                                    <span class="float-left">
+                                    <span style="font-weight: bold " class="float-left">
                                       Contact No.
                                     </span>
-                                    <span class="float-right text-muted">
+                                    <span style="color:darkslategrey" class="float-right">
                                       +91 {{ profile.user.contactNo }}
                                     </span>
                                 </p>
                                 <p class="clearfix">
-                                    <span class="float-left">
+                                    <span style="font-weight: bold " class="float-left">
                                       Blood Group
                                     </span>
-                                    <span class="float-right text-muted">
+                                    <span style="color:darkslategrey" class="float-right">
                                       {{ profile.user.bloodGroup }}
                                     </span>
                                 </p>
                                 <p class="clearfix">
-                                    <span class="float-left">
+                                    <span style="font-weight: bold " class="float-left">
                                       Date of Birth
                                     </span>
-                                    <span class="float-right text-muted" ng-if="profile.user.dob">
+                                    <span class="float-right" ng-if="profile.user.dob">
                                       {{ profile.user.dob }}
                                     </span>
-                                    <span class="float-right text-muted" ng-if="!profile.user.dob">
+                                    <span style="color:darkslategrey" class="float-right" ng-if="!profile.user.dob">
                                       N/A
                                     </span>
                                 </p>

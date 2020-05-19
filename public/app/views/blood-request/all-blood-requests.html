@@ -11,7 +11,7 @@
                     <div class="card card-danger">
                         <div class="card-body">
                             <div class="row">
-                                <div class="col-12 col-md-6 col-lg-6">
+                                <div class="col-md-12 col-lg-4">
                                     <div class="form-group">
                                         <div class="form-group">
                                             <label>Blood Group</label>
@@ -22,12 +22,22 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-12 col-md-6 col-lg-6">
+                                <div class="col-md-12 col-lg-4">
                                     <div class="form-group">
                                         <label>Patient Condition</label>
                                         <select class="form-control" ng-model="condition" required>
                                             <option value="">-- Showing all Requests --</option>
                                             <option value="Yes"> Only Critical Requests  </option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-12 col-lg-4">
+                                    <div class="form-group">
+                                        <label>Request Status</label>
+                                        <select class="form-control" ng-model="status" required>
+                                            <option value="">-- Showing All Requests --</option>
+                                            <option value="open"> Show Only Open Requests  </option>
+                                            <option value="close"> Show Only Close Requests  </option>
                                         </select>
                                     </div>
                                 </div>
@@ -44,31 +54,20 @@
             </div>
 
             <div class="row" ng-if="!viewAllBloodRequest.loading">
-                <div class="col-12 col-md-6 col-lg-6" ng-repeat="bloodRequest in viewAllBloodRequest.bloodRequests | filter : { bloodGroup : bg , condition : condition }">
+                <div class="col-md-6 col-lg-4" ng-repeat="bloodRequest in viewAllBloodRequest.bloodRequests | filter : { bloodGroup : bg , condition : condition }">
                     <div class="card card-danger">
                         <div class="card-header row">
-                            <div class="col-md-12 col-lg-2" style="background-image: url('assets/img/bg/bgroup.jpeg'); border-radius: 1vh" >
-                                <p style="font-size: 16px; margin-top: 2vh;font-weight: bold; color: white; text-align: center">{{ bloodRequest.bloodGroup }}</p>
+                            <div class="col-md-12 col-lg-3" style="background-image: url('assets/img/bg/bgroup.jpeg'); border-radius: 1vh" >
+                                <p style="font-size: 16px; margin-top: 2vh;font-weight: bolder; color: white; text-align: center">{{ bloodRequest.bloodGroup }}</p>
                             </div>
-                            <div style="margin-left: 1vh" class="col-lg-9 col-md-12">
-                                <div style="margin-top: 1vh;" class="row">
-                                    <div class="col-9">
-                                        <h4 style="color: darkslategrey; font-weight: bold;">{{ bloodRequest.patientName | uppercase  }} <i class="fas fa-heartbeat text-danger" style="font-size: large" ng-if="bloodRequest.condition === 'Yes'"></i></h4>
+                            <div class="col-lg-9 col-md-12">
+                                <div style="margin-top: 2vh;" class="row">
+                                    <div style="padding-left: 4vh" class="col-12">
+                                        <h6 style="color: darkslategrey; font-weight: bold;">{{ bloodRequest.patientName | uppercase  }} <i class="fas fa-heartbeat text-danger" style="font-size: large;margin-left: 1vh" ng-if="bloodRequest.condition === 'Yes'"></i></h6>
+                                        <h6 style="font-size :2.2vh;color: darkred; font-weight: bold;">{{ bloodRequest.unitsRequired}} Units(s)</h6>
+                                        <h6 style="font-size :2.2vh;color: grey; font-weight: bold;">{{ bloodRequest.hospitalName}}, {{bloodRequest.hospitalAddress }}</h6>
+                                        <h6 style="margin-top:2vh;margin-bottom:2vh;font-size :2.2vh;"><a style="font-weight: bold;" href="/request/{{ bloodRequest._id }}">View More ....</a></h6>
                                     </div>
-                                    <div class="col-2">
-                                        <div style="margin-left: 2vh" class="card-header-action">
-                                            <a data-collapse="#mycard-collapse1" class="btn btn-icon btn-info" href="/request/{{ bloodRequest._id }}">
-                                                <i class="fas fa-external-link-alt"></i>
-                                            </a>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div style="margin-left:0.1vh " class="row" >
-                                    <p style="color: darkred; font-weight: bold; font-size: medium">{{ bloodRequest.unitsRequired}}</p>
-                                    <p style="margin-left:5px; color: grey; font-weight: bold; font-size: medium">Unit(s)</p>
-                                </div>
-                                <div style="margin-top: -2vh; margin-left: 0.1vh" class="row" >
-                                    <p style="color: grey; font-weight: bold; font-size: medium">{{ bloodRequest.hospitalName}}, {{bloodRequest.hospitalAddress }}</p>
                                 </div>
                             </div>
 
