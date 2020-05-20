@@ -66,8 +66,8 @@ io.sockets.on('connection', function (socket) {
             if(err) {
                 console.log(err);
             } else {
-                console.log(consult);
-                consult.chat.push(data.data);
+                //console.log(consult);
+                //consult.chat.push(data.data);
 
                 consult.save(function (err) {
                     if(err) {
