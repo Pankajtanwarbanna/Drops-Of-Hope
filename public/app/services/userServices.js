@@ -118,11 +118,45 @@ angular.module('userServices',[])
         return $http.post('/api/startChat', chatData);
     };
 
-    // open chatrs
+    // open chats
     userFactory.getAllOpenConsulations = function () {
         return $http.get('/api/getAllOpenConsulations');
     };
 
+    // get all users
+    userFactory.getAllUsers = function () {
+        return $http.get('/api/getAllUsers');
+    };
+
+    // get all donors
+    userFactory.getAllDonors = function () {
+        return $http.get('/api/getAllDonors');
+    };
+
+    // get all requests
+    userFactory.getAllRequests = function () {
+        return $http.get('/api/getAllRequests');
+    };
+
+    // get all open requests
+    userFactory.getAllClosedRequests = function () {
+        return $http.get('/api/getAllClosedRequests');
+    };
+
+    // get all closed requests
+    userFactory.getAllOpenRequests = function () {
+        return $http.get('/api/getAllOpenRequests');
+    };
+
+    // get all your views
+    userFactory.getAllYourViews = function () {
+        return $http.get('/api/getAllYourViews');
+    };
+
+    // get all blogs
+    userFactory.getAllBlogs = function () {
+        return $http.get('/api/getAllBlogs');
+    };
 
     return userFactory;
 });

@@ -1594,6 +1594,159 @@ module.exports = function (router){
         });
     });
 
+    // get all users
+    router.get('/getAllUsers', auth.ensureLoggedIn, function (req, res) {
+        User.find({ permission : 'user'}).exec(function (err, users) {
+            if(err) {
+                res.json({
+                    success : false,
+                    message : 'Something went wrong!'
+                })
+            } else if(!users) {
+                res.json({
+                    success : false,
+                    message : 'Users not found.'
+                })
+            } else {
+                res.json({
+                    success : true,
+                    users:users,
+                })
+            }
+        })
+    });
+
+// get all donors
+    router.get('/getAllDonors', auth.ensureLoggedIn, function (req, res) {
+        User.find({ permission : 'user',available : 'Yes'}).exec(function (err, donors) {
+            if(err) {
+                res.json({
+                    success : false,
+                    message : 'Something went wrong!'
+                })
+            } else if(!donors) {
+                res.json({
+                    success : false,
+                    message : 'Donors not found.'
+                })
+            } else {
+                res.json({
+                    success : true,
+                    donors:donors,
+                })
+            }
+        })
+    });
+
+// get all requests
+    router.get('/getAllRequests', auth.ensureLoggedIn, function (req, res) {
+        BloodRequest.find().exec(function (err, requests) {
+            if(err) {
+                res.json({
+                    success : false,
+                    message : 'Something went wrong!'
+                })
+            } else if(!requests) {
+                res.json({
+                    success : false,
+                    message : 'Requests not found.'
+                })
+            } else {
+                res.json({
+                    success : true,
+                    requests:requests,
+                })
+            }
+        })
+    });
+
+// get all open requests
+    router.get('/getAllOpenRequests', auth.ensureLoggedIn, function (req, res) {
+        BloodRequest.find({status:'open'}).exec(function (err, openrequests) {
+            if(err) {
+                res.json({
+                    success : false,
+                    message : 'Something went wrong!'
+                })
+            } else if(!openrequests) {
+                res.json({
+                    success : false,
+                    message : 'Open Requests not found.'
+                })
+            } else {
+                res.json({
+                    success : true,
+                    openrequests:openrequests,
+                })
+            }
+        })
+    });
+
+// get all closed requests
+    router.get('/getAllClosedRequests', auth.ensureLoggedIn, function (req, res) {
+        BloodRequest.find({status:'close'}).exec(function (err, closedrequests) {
+            if(err) {
+                res.json({
+                    success : false,
+                    message : 'Something went wrong!'
+                })
+            } else if(!closedrequests) {
+                res.json({
+                    success : false,
+                    message : 'Closed Requests not found.'
+                })
+            } else {
+                res.json({
+                    success : true,
+                    closedrequests:closedrequests,
+                })
+            }
+        })
+    });
+
+// get all your views
+    router.get('/getAllYourViews', auth.ensureLoggedIn, function (req, res) {
+        User.find({ email : req.decoded.email }).select('views').exec(function (err, yourviews) {
+            if(err) {
+                res.json({
+                    success : false,
+                    message : 'Something went wrong!'
+                })
+            } else if(!yourviews) {
+                res.json({
+                    success : false,
+                    message : 'Views not found.'
+                })
+            } else {
+                res.json({
+                    success : true,
+                    yourviews:yourviews,
+                })
+            }
+        })
+    });
+
+// get all your blogs
+    router.get('/getAllBlogs', auth.ensureLoggedIn, function (req, res) {
+        Story.find().exec(function (err, blogs) {
+            if(err) {
+                res.json({
+                    success : false,
+                    message : 'Something went wrong!'
+                })
+            } else if(!blogs) {
+                res.json({
+                    success : false,
+                    message : 'Blogs not found.'
+                })
+            } else {
+                res.json({
+                    success : true,
+                    blogs:blogs,
+                })
+            }
+        })
+    });
 
     return router;
 };

@@ -114,4 +114,84 @@ angular.module('mainController', ['authServices'])
         'O-'
     ];
 
+    // get all users
+    user.getAllUsers().then(function (data) {
+        console.log(data);
+        if(data.data.success) {
+            app.users = data.data.users;
+        } else {
+            app.errorMsg = data.data.message;
+        }
+    });
+
+    // get all donors
+    user.getAllDonors().then(function (data) {
+        console.log(data);
+        if(data.data.success) {
+            app.donors = data.data.donors;
+        } else {
+            app.errorMsg = data.data.message;
+        }
+    });
+
+    // get all requests
+    user.getAllRequests().then(function (data) {
+        console.log(data);
+        if(data.data.success) {
+            app.requests = data.data.requests;
+        } else {
+            app.errorMsg = data.data.message;
+        }
+    });
+
+    // get all open requests
+    user.getAllOpenRequests().then(function (data) {
+        console.log(data);
+        if(data.data.success) {
+            app.openrequests = data.data.openrequests;
+        } else {
+            app.errorMsg = data.data.message;
+        }
+    });
+
+    // get all closed requests
+    user.getAllClosedRequests().then(function (data) {
+        console.log(data);
+        if(data.data.success) {
+            app.closedrequests = data.data.closedrequests;
+        } else {
+            app.errorMsg = data.data.message;
+        }
+    });
+
+    // get all doctors
+    user.getAllDoctors().then(function (data) {
+        console.log(data);
+        if(data.data.success) {
+            app.doctors = data.data.doctors;
+        } else {
+            app.errorMsg = data.data.message;
+        }
+    });
+
+    // get all your views
+    user.getAllYourViews().then(function (data) {
+        console.log(data);
+        if(data.data.success) {
+            app.yourviews = data.data.yourviews;
+        } else {
+            app.errorMsg = data.data.message;
+        }
+    });
+
+    // get all blogs
+    user.getAllBlogs().then(function (data) {
+        console.log(data);
+        if(data.data.success) {
+            app.blogs = data.data.blogs;
+        } else {
+            app.errorMsg = data.data.message;
+        }
+    });
+
 });

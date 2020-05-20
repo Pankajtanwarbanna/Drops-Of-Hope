@@ -136,7 +136,6 @@ var app = angular.module('userRoutes', ['ngRoute'])
                 controllerAs : 'chat'
             })
 
-
             .otherwise( { redirectTo : '/'});
 
         $locationProvider.html5Mode({
