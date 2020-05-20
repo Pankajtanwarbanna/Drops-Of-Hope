@@ -108,5 +108,21 @@ angular.module('userServices',[])
         return $http.get('/api/getAllStories');
     };
 
+    // get all doctors
+    userFactory.getAllDoctors = function () {
+        return $http.get('/api/getAllDoctors');
+    };
+
+    // start chat
+    userFactory.startChat = function (chatData) {
+        return $http.post('/api/startChat', chatData);
+    };
+
+    // open chatrs
+    userFactory.getAllOpenConsulations = function () {
+        return $http.get('/api/getAllOpenConsulations');
+    };
+
+
     return userFactory;
 });

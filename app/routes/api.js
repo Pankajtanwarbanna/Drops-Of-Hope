@@ -4,6 +4,7 @@
 let User = require('../models/user');
 let BloodRequest = require('../models/bloodRequest');
 let Story = require('../models/story');
+let Consultation = require('../models/consultation');
 let auth = require('../auth/authUtils');
 let jwt = require('jsonwebtoken');
 let secret = 'zulu';
@@ -1511,6 +1512,88 @@ module.exports = function (router){
             }
         })
     });
+
+    // get all doctors
+    router.get('/getAllDoctors', auth.ensureLoggedIn, function (req, res) {
+        User.find({ permission : 'doctor'}).exec(function (err, doctors) {
+            if(err) {
+                res.json({
+                    success : false,
+                    message : 'Something went wrong!'
+                })
+            } else if(!doctors) {
+                res.json({
+                    success : false,
+                    message : 'Doctors not found.'
+                })
+            } else {
+                res.json({
+                    success : true,
+                    doctors : doctors
+                })
+            }
+        })
+    });
+
+    // start chat
+    router.post('/startChat', auth.ensureLoggedIn, function (req, res) {
+
+        let chat = new Consultation();
+
+        chat.doctor = req.body.doctor;
+        chat.title = req.body.title;
+        chat.author = req.decoded.email;
+        chat.timestamp = new Date();
+
+        chat.save(function (err) {
+            if(err) {
+                res.json({
+                    success : false,
+                    message : 'Something went wrong!'
+                })
+            } else {
+                res.json({
+                    success : true,
+                    message : 'Consultation has been started. Go to open consultations!'
+                })
+            }
+        })
+    });
+
+    // chat
+    router.get('/getAllOpenConsulations', auth.ensureLoggedIn, function (req, res) {
+
+        Consultation.aggregate([
+            {
+                $match : {
+                    status : "open",
+                    author : req.decoded.email
+
+                }
+            },
+            {
+                $lookup : {
+                    from : "users",
+                    localField : "doctor",
+                    foreignField : "email",
+                    as : "doctors"
+                }
+            }
+        ]).exec(function (err, chats) {
+            if(err) {
+                res.json({
+                    success : false,
+                    message : 'Something went wrong!'
+                })
+            } else {
+                res.json({
+                    success : true,
+                    chats : chats
+                })
+            }
+        });
+    });
+
 
     return router;
 };

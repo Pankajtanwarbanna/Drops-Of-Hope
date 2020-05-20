@@ -14,7 +14,7 @@
                             <h4>Your consultation..</h4>
                             <div class="card-header-action">
                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#basicModal">Doctors <i class="fas fa-hands-helping"></i></button>
-                                <a href="/upload-story" class="btn btn-danger">New Consultation <i class="fas fa-briefcase-medical"></i></a>
+                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#newConsult">New Consultation <i class="fas fa-briefcase-medical"></i></button>
                             </div>
                         </div>
                         <div class="card-body">
@@ -68,24 +68,24 @@
             </p>
 
             <div class="row">
-                <div class="col-12 col-sm-12 col-lg-7">
+                <div class="col-md-6 col-lg-6" ng-repeat="chat in consultation.chats">
                     <div class="card author-box card-danger">
                         <div class="card-body">
                             <div class="author-box-left">
-                                <img alt="image" src="assets/img/users/user-3.png" class="rounded-circle author-box-picture">
+                                <img alt="image" src="assets/uploads/{{ chat.doctors[0].profile_url }}" class="rounded-circle author-box-picture">
                                 <div class="clearfix"></div>
                             </div>
                             <div class="author-box-details">
                                 <div class="author-box-name">
-                                    <a href="#" class="text-danger">Mohit Shreewastav</a>
+                                    <a href="#" class="text-danger">Dr. {{ chat.doctors[0].firstName }} {{ chat.doctors[0].lastName }}</a>
                                 </div>
-                                <div class="author-box-job">Physician</div>
+                                <div class="author-box-job">MNIT Doctor</div>
                                 <div class="author-box-description">
-                                    <p>Fever due to constantly looking at the computer screen.</p>
+                                    <p>{{ chat.title }}</p>
                                 </div>
                                 <div class="w-100 d-sm-none"></div>
                                 <div class="float-right mt-sm-0 mt-3">
-                                    <a href="/chat" class="btn text-danger">Go to Chat <i class="fas fa-chevron-right"></i></a>
+                                    <a href="/chat/{{chat._id }}" class="btn text-danger">Go to Chat <i class="fas fa-chevron-right"></i></a>
                                 </div>
                             </div>
                         </div>
@@ -103,17 +103,75 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Available Doctors</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
-                    Content goes here..
+                    <div class="support-ticket media pb-1 mb-3" ng-repeat="doctor in consultation.doctors">
+                        <img src="assets/uploads/{{ doctor.profile_url }}" class="user-img mr-2" alt="">
+                        <div class="media-body ml-3">
+                            <div class="badge badge-pill badge-success mb-1 float-right">#{{ $index + 1}}</div>
+                            <span class="font-weight-bold">{{ doctor.firstName }} {{ doctor.lastName }}</span>
+                            <p class="my-1">Physician</p>
+                        </div>
+                    </div>
                 </div>
-                <div class="modal-footer bg-whitesmoke br">
-                    <button type="button" class="btn btn-primary">Save changes</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- New Consultation -->
+    <!-- basic modal -->
+    <div class="modal fade" id="newConsult" tabindex="-1" role="dialog" aria-labelledby="formModal"
+         aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="formModal">New Consultation</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+
+                    <!-- Success -->
+                    <div class="form-group text-center" ng-show="consultation.successMsg">
+                        <img src="/assets/img/success.gif" style="width: 150px;height: 150px;">
+                        <h6 class="text-success">Success! {{ consultation.successMsg }}</h6>
+                    </div>
+                    
+                    <form ng-submit="consultation.startChat(chatData);" ng-show="!consultation.successMsg">
+                        <div class="form-group">
+                            <label>Enter title</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" placeholder="Type the title" ng-model="consultation.chatData.title" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Doctor</label>
+                            <select class="form-control" ng-model="consultation.chatData.doctor">
+                                <option value="">-- Select Doctor --</option>
+                                <option ng-repeat="doctor in consultation.doctors" ng-value="doctor.email">{{ doctor.firstName }} {{ doctor.lastName }} </option>
+                            </select>
+                        </div>
+
+                        <!-- Error -->
+                        <div class="form-group text-center" ng-show="consultation.errorMsg">
+                            <img src="/assets/img/failed.png" style="width: 50px;height: 50px;">
+                            <h6 class="text-danger">Oops! {{ consultation.errorMsg }}</h6>
+                        </div>
+                        
+                        <button type="submit" ng-show="!consultation.loading" class="btn btn-primary m-t-15 waves-effect">Start Consultation &nbsp;<i class="fas fa-arrow-alt-circle-right"></i> </button>
+
+                        <!-- Loading Msg -->
+                        <div class="form-group text-center" ng-show="consultation.loading">
+                            <img src="/assets/img/preload.gif" style="width: 100px;height: 100px;">
+                            <h6 class="text-muted">Please wait, posting your blood request...</h6>
+                        </div>
+                        
+                    </form>
                 </div>
             </div>
         </div>

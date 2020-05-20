@@ -318,6 +318,44 @@ uploadFile.uploadImage($scope.file).then(function (data) {
 .controller('consultationCtrl', function (user) {
 
     let app = this;
+
+    // get all doctors
+    user.getAllDoctors().then(function (data) {
+        console.log(data);
+        if(data.data.success) {
+            app.doctors = data.data.doctors;
+        } else {
+            app.errorMsg = data.data.message;
+        }
+    });
+
+    // all open chats
+    user.getAllOpenConsulations().then(function (data) {
+        console.log(data);
+        if(data.data.success) {
+            app.chats = data.data.chats;
+        } else {
+            app.errorMsg =data.data.message;
+        }
+
+    });
+
+    // start chat
+    app.startChat = function (chatData) {
+
+        app.loading = true;
+
+        user.startChat(app.chatData).then(function (data) {
+            console.log(data);
+            if(data.data.success) {
+                app.loading = false;
+                app.successMsg = data.data.message;
+            } else {
+                app.loading = false;
+                app.errorMsg = data.data.message;
+            }
+        })
+    }
 })
 
 // consultation controller

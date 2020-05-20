@@ -129,7 +129,7 @@ var app = angular.module('userRoutes', ['ngRoute'])
                 controllerAs : 'consultation'
             })
 
-            .when('/chat',{
+            .when('/chat/:chatID',{
                 templateUrl:'app/views/consultation/chat.html',
                 authenticated:true,
                 controller : 'chatCtrl',
