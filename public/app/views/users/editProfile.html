@@ -82,28 +82,28 @@
                 <div class="col-12 col-md-12 col-lg-8">
                     <div class="card card-danger">
                         <div class="card-header">
-                            <h4>Register</h4>
+                            <h4>Edit my profile.</h4>
                         </div>
                         <div class="card-body">
 
                             <!-- Success -->
-                            <div class="form-group text-center" ng-show="register.successMsg">
+                            <div class="form-group text-center" ng-show="profile.updateSuccessMsg">
                                 <img src="/assets/img/success.gif" style="width: 150px;height: 150px;">
-                                <h6 class="text-success">Success! {{ register.successMsg }}</h6>
+                                <h6 class="text-success">Success! {{ profile.updateSuccessMsg }}</h6>
                             </div>
 
-                            <form ng-submit="register.regUser(regData);" ng-if="!register.successMsg">
+                            <form ng-submit="profile.updateUserProfileDetails(user);" ng-if="!profile.updateSuccessMsg">
                                 <div class="row">
                                     <div class="col-12 col-md-6 col-lg-6">
                                         <div class="form-group">
                                             <label>First Name</label>
-                                            <input type="text" class="form-control" ng-model="register.regData.firstName" required>
+                                            <input type="text" class="form-control" ng-model="profile.user.firstName" required>
                                         </div>
                                     </div>
                                     <div class="col-12 col-md-6 col-lg-6">
                                         <div class="form-group">
                                             <label>Last Name</label>
-                                            <input type="text" class="form-control" ng-model="register.regData.lastName" required>
+                                            <input type="text" class="form-control" ng-model="profile.user.lastName" required>
                                         </div>
                                     </div>
                                 </div>
@@ -111,7 +111,7 @@
                                     <div class="col-12 col-md-6 col-lg-6">
                                         <div class="form-group">
                                             <label>Blood Group</label>
-                                            <select class="form-control" ng-model="register.regData.bloodGroup" required>
+                                            <select class="form-control" ng-model="profile.user.bloodGroup" required>
                                                 <option value="">-- Select Blood Group --</option>
                                                 <option ng-repeat="bloodGroup in main.bloodGroups" ng-value="bloodGroup">{{ bloodGroup }}</option>
                                             </select>
@@ -124,7 +124,7 @@
                                                 <div class="input-group-prepend">
                                                     <div class="input-group-text"> +91 </div>
                                                 </div>
-                                                <input type="text" class="form-control" ng-model="register.regData.contactNo" required>
+                                                <input type="text" class="form-control" ng-model="profile.user.contactNo" required>
                                             </div>
                                         </div>
                                     </div>
@@ -134,38 +134,20 @@
                                     <div class="col-12 col-md-6 col-lg-6">
                                         <div class="form-group">
                                             <label>Email</label>
-                                            <input type="email" class="form-control" ng-model="register.regData.email" required>
+                                            <input type="email" class="form-control" ng-model="profile.user.email" disabled required>
                                         </div>
                                     </div>
 
                                     <div class="col-12 col-md-6 col-lg-6">
                                         <div class="form-group">
                                             <label>Available for donating blood?</label>
-                                            <select class="form-control" ng-model="register.regData.available" required>
+                                            <select class="form-control" ng-model="profile.user.available" required>
                                                 <option value="">-- Select Willingness --</option>
                                                 <option value="Yes">Yes</option>
                                                 <option value="No">No</option>
                                             </select>
                                         </div>
                                     </div>
-                                </div>
-
-                                <div class="row">
-
-                                    <div class="col-12 col-md-6 col-lg-6">
-                                        <div class="form-group">
-                                            <label class="d-block">Password</label>
-                                            <input type="password" class="form-control" name="password" ng-model="register.regData.password" required>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-12 col-md-6 col-lg-6">
-                                        <div class="form-group">
-                                            <label class="d-block">Password Confirmation</label>
-                                            <input type="password" class="form-control" ng-model="register.regData.confirmPassword" required>
-                                        </div>
-                                    </div>
-
                                 </div>
                                 <!--<div class="form-group">
                                     <div class="custom-control custom-checkbox">
@@ -175,21 +157,21 @@
                                 </div>-->
 
                                 <!-- Error -->
-                                <div class="form-group text-center" ng-show="register.errorMsg">
+                                <div class="form-group text-center" ng-show="profile.errorMsg">
                                     <img src="/assets/img/failed.png" style="width: 50px;height: 50px;">
-                                    <h6 class="text-danger">Oops! {{ register.errorMsg }}</h6>
+                                    <h6 class="text-danger">Oops! {{ profile.errorMsg }}</h6>
                                 </div>
 
-                                <div class="form-group" ng-if="!register.loading">
+                                <div class="form-group" ng-if="!profile.updateLoading">
                                     <button type="submit" class="btn btn-danger btn-lg btn-block">
                                         Save Changes
                                     </button>
                                 </div>
 
                                 <!-- Loading Msg -->
-                                <div class="form-group text-center" ng-show="register.loading">
+                                <div class="form-group text-center" ng-show="profile.updateLoading">
                                     <img src="/assets/img/preload.gif" style="width: 100px;height: 100px;">
-                                    <h6 class="text-muted">Please wait, creating account...</h6>
+                                    <h6 class="text-muted">Please wait, updating your details...</h6>
                                 </div>
 
                             </form>

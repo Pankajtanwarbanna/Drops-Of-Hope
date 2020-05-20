@@ -113,7 +113,7 @@ uploadFile.uploadImage($scope.file).then(function (data) {
 })
 
 // user profile controller
-.controller('profileCtrl', function (user, uploadFile, $scope) {
+.controller('profileCtrl', function (user, uploadFile, $scope, $timeout) {
 
     let app = this;
 
@@ -172,6 +172,25 @@ uploadFile.uploadImage($scope.file).then(function (data) {
             }
         })
     };
+
+    // update user profile details.
+    app.updateUserProfileDetails = function () {
+        app.updateLoading = true;
+        //console.log(app.user);
+        user.updateUserProfileDetails(app.user).then(function (data) {
+            //console.log(data);
+            if(data.data.success) {
+                app.updateLoading = false;
+                app.updateSuccessMsg = data.data.message;
+                $timeout(function () {
+                    app.updateSuccessMsg = '';
+                }, 3000);
+            } else {
+                app.updateLoading = false;
+                app.errorMsg = data.data.message;
+            }
+        })
+    }
 })
 
 // user account settings controller
@@ -238,4 +257,72 @@ uploadFile.uploadImage($scope.file).then(function (data) {
             }
         })
     }
+})
+
+// story post controller
+
+.controller('storyCtrl', function (user, $scope, uploadFile) {
+
+    let app = this;
+
+    app.postNewStory = function () {
+
+        app.loading = true;
+        app.errorMsg = '';
+        app.successMsg = '';
+
+        uploadFile.uploadImage($scope.file).then(function (data) {
+            console.log(data);
+            let storyObj = {};
+            storyObj.filename = data.data.filename;
+            storyObj.story = app.storyData.story;
+            console.log(storyObj);
+
+            if(data.data.success) {
+                user.uploadStory(storyObj).then(function (data) {
+                    //console.log(status);
+                    if(data.data.success) {
+                        app.successMsg = data.data.message;
+                        app.loading = false;
+                    } else {
+                        app.loading = false;
+                        app.errorMsg = data.data.message;
+                    }
+                });
+            } else {
+                app.loading = false;
+                app.errorMsg = data.data.message;
+            }
+        })
+
+    }
+
+})
+
+// photos controller
+.controller('photosCtrl', function (user) {
+
+    let app = this;
+
+    // get all stories
+    user.getAllStories().then(function (data) {
+        if(data.data.success) {
+            app.stories = data.data.stories;
+        } else {
+            app.errorMsg = data.data.message;
+        }
+    })
+})
+
+// consultation controller
+.controller('consultationCtrl', function (user) {
+
+    let app = this;
+})
+
+// consultation controller
+.controller('chatCtrl', function (user) {
+
+    let app = this;
 });
+

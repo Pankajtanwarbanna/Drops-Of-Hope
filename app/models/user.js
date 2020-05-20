@@ -41,7 +41,8 @@ let userSchema = new mongoose.Schema({
     },
     bloodGroup : {
         type : String,
-        required : true
+        required : true,
+        unique:  false
     },
     contactNo : {
         type : String,

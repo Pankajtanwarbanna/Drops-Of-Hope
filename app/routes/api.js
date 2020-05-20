@@ -3,6 +3,7 @@
 */
 let User = require('../models/user');
 let BloodRequest = require('../models/bloodRequest');
+let Story = require('../models/story');
 let auth = require('../auth/authUtils');
 let jwt = require('jsonwebtoken');
 let secret = 'zulu';
@@ -1432,7 +1433,84 @@ module.exports = function (router){
                 }
             }
         })
-    })
+    });
+
+    // update user profile
+    router.post('/updateUserProfileDetails', auth.ensureLoggedIn, function( req, res) {
+        User.findByIdAndUpdate( req.body._id , req.body , function (err) {
+            if(err) {
+                console.log(err)
+                res.json({
+                    success : false,
+                    message : 'Something went wrong!'
+                })
+            } else {
+                res.json({
+                    success : true,
+                    message : 'Profile details updated.'
+                })
+            }
+        })
+    });
+    
+    // upload story
+    router.post('/uploadStory', auth.ensureLoggedIn, function (req , res) {
+
+        let story = new Story();
+
+        story.story = req.body.story;
+        story.image_url = req.body.filename;
+        story.author = req.decoded.email;
+        story.timestamp = new Date();
+
+        story.save(function (err) {
+            if(err) {
+                console.log(err);
+                res.json({
+                    success : false,
+                    message : 'Something went wrong!'
+                })
+            } else {
+                res.json({
+                    success : true,
+                    message : 'Story has been shared.'
+                })
+            }
+        })
+
+    });
+
+    // get all stories
+    router.get('/getAllStories', auth.ensureLoggedIn, function (req, res) {
+
+        Story.aggregate([
+            {
+                $lookup : {
+                    from : "users",
+                    localField : "author",
+                    foreignField : "email",
+                    as : "authors"
+                }
+            }
+        ]).exec(function(err, stories) {
+            if(err) {
+                res.json({
+                    success : false,
+                    message : 'Something went wrong!'
+                })
+            } else if(!stories) {
+                res.json({
+                    success : false,
+                    message : 'Photos not found.'
+                })
+            } else {
+                res.json({
+                    success : true,
+                    stories : stories
+                })
+            }
+        })
+    });
 
     return router;
 };

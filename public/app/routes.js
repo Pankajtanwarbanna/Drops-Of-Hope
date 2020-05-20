@@ -81,11 +81,15 @@ var app = angular.module('userRoutes', ['ngRoute'])
             .when('/photos',{
                 templateUrl:'app/views/gallery/photos.html',
                 authenticated:true,
+                controller : 'photosCtrl',
+                controllerAs : 'photos'
             })
 
-            .when('/videos',{
-                templateUrl:'app/views/gallery/videos.html',
+            .when('/upload-story',{
+                templateUrl:'app/views/gallery/upload-story.html',
                 authenticated:true,
+                controller : 'storyCtrl',
+                controllerAs : 'story'
             })
 
             // Blood Requests Routes
@@ -117,6 +121,21 @@ var app = angular.module('userRoutes', ['ngRoute'])
                 controllerAs : 'findDonor',
                 authenticated : true
             })
+
+            .when('/consultation',{
+                templateUrl:'app/views/consultation/consultation.html',
+                authenticated:true,
+                controller : 'consultationCtrl',
+                controllerAs : 'consultation'
+            })
+
+            .when('/chat',{
+                templateUrl:'app/views/consultation/chat.html',
+                authenticated:true,
+                controller : 'chatCtrl',
+                controllerAs : 'chat'
+            })
+
 
             .otherwise( { redirectTo : '/'});
 

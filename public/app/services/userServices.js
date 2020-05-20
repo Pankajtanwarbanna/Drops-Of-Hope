@@ -92,5 +92,21 @@ angular.module('userServices',[])
     userFactory.updateProfilePictureURL = function (requestData) {
         return $http.post('/api/updateProfilePictureURL', requestData);
     };
+
+    // update user profile details
+    userFactory.updateUserProfileDetails = function (userData) {
+        return $http.post('/api/updateUserProfileDetails' , userData);
+    };
+
+    // upload story
+    userFactory.uploadStory = function (storyData) {
+        return $http.post('/api/uploadStory', storyData);
+    };
+
+    // get all stories
+    userFactory.getAllStories = function () {
+        return $http.get('/api/getAllStories');
+    };
+
     return userFactory;
 });
