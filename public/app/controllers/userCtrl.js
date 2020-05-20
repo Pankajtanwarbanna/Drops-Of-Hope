@@ -1,4 +1,4 @@
-angular.module('userCtrl',['userServices','fileModelDirective','uploadFileService'])
+angular.module('userCtrl',['userServices','fileModelDirective','uploadFileService','btford.socket-io'])
 
 
 // File Upload
@@ -10,6 +10,13 @@ uploadFile.uploadImage($scope.file).then(function (data) {
     console.log(data);
 })
 */
+.service('SocketService', ['socketFactory', function SocketService(socketFactory) {
+    return socketFactory({
+        ioSocket: io.connect('localhost:8000')
+    });
+}])
+
+
 .controller('regCtrl', function ($scope, $http, $timeout, $location,user) {
 
     var app = this;
@@ -330,7 +337,7 @@ uploadFile.uploadImage($scope.file).then(function (data) {
     });
 
     // all open chats
-    user.getAllOpenConsulations().then(function (data) {
+    user.getAllOpenConsultations().then(function (data) {
         console.log(data);
         if(data.data.success) {
             app.chats = data.data.chats;
@@ -359,8 +366,49 @@ uploadFile.uploadImage($scope.file).then(function (data) {
 })
 
 // consultation controller
-.controller('chatCtrl', function (user) {
+.controller('chatCtrl', function (user, SocketService, $scope, $routeParams) {
 
     let app = this;
+
+    $scope.message = {};
+
+    SocketService.on('connect' , function () {
+        // user is connected.
+        console.log('user connect.')
+    });
+
+    // Joined Chat
+    SocketService.emit('room', { chatID : $routeParams.chatID });
+
+    app.sendMessage = function(data, email) {
+        console.log(app.data);
+        let messageData = {};
+
+        messageData.chatID = $routeParams.chatID;
+        messageData.message = app.data.message;
+        messageData.sender = email;
+        messageData.timestamp = new Date();
+
+        SocketService.emit('send message', { data: messageData })
+        app.data.message = '';
+        //$scope.array.push({ data: $scope.message, date: new Date() })
+    };
+
+    SocketService.on('new message', function(data) {
+        console.log(data);
+        app.chats.push(data.data);
+    });
+
+    // get all chat messages
+    user.getAllChats($routeParams.chatID).then(function (data) {
+        console.log(data);
+        if(data.data.success) {
+            app.consultation = data.data.consultation[0];
+            app.chats = data.data.consultation[0].chat;
+        } else {
+            app.errorMsg = data.data.message;
+        }
+    })
+
 });
 

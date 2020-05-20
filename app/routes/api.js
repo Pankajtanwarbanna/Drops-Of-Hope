@@ -1561,7 +1561,7 @@ module.exports = function (router){
     });
 
     // chat
-    router.get('/getAllOpenConsulations', auth.ensureLoggedIn, function (req, res) {
+    router.get('/getAllOpenConsultations', auth.ensureLoggedIn, function (req, res) {
 
         Consultation.aggregate([
             {
@@ -1594,6 +1594,7 @@ module.exports = function (router){
         });
     });
 
+<<<<<<< Updated upstream
     // get all users
     router.get('/getAllUsers', auth.ensureLoggedIn, function (req, res) {
         User.find({ permission : 'user'}).exec(function (err, users) {
@@ -1663,11 +1664,41 @@ module.exports = function (router){
 // get all open requests
     router.get('/getAllOpenRequests', auth.ensureLoggedIn, function (req, res) {
         BloodRequest.find({status:'open'}).exec(function (err, openrequests) {
+=======
+    // get all chats
+    router.get('/getAllChats/:chatID', auth.ensureLoggedIn, function (req,res) {
+
+        Consultation.aggregate([
+            {
+                $match : {
+                    _id : mongoose.Types.ObjectId(req.params.chatID)
+                }
+            },
+            {
+                $lookup : {
+                    from : "users",
+                    localField : "author",
+                    foreignField : "email",
+                    as : "author"
+                }
+            },
+            {
+                $lookup : {
+                    from : "users",
+                    localField : "doctor",
+                    foreignField : "email",
+                    as : "doctors"
+                }
+            }
+
+        ]).exec(function (err, consultation) {
+>>>>>>> Stashed changes
             if(err) {
                 res.json({
                     success : false,
                     message : 'Something went wrong!'
                 })
+<<<<<<< Updated upstream
             } else if(!openrequests) {
                 res.json({
                     success : false,
@@ -1747,6 +1778,17 @@ module.exports = function (router){
             }
         })
     });
+=======
+            } else {
+                res.json({
+                    success : true,
+                    consultation : consultation
+                })
+            }
+        })
+    })
+
+>>>>>>> Stashed changes
 
     return router;
 };

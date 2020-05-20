@@ -11,16 +11,10 @@ let consultationSchema = new mongoose.Schema({
         required : true
     },
     chat : [{
-        from : {
-            type : String
-        },
-        to : {
+        sender : {
             type : String
         },
         message : {
-            type : String
-        },
-        attachment : {
             type : String
         },
         timestamp : {
