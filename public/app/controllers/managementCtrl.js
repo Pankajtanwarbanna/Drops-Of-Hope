@@ -18,7 +18,10 @@ angular.module('managementController', ['userServices'])
 
         user.getUsers().then(function (data) {
 
+            console.log(data.data.users);
+
             if(data.data.success) {
+                app.users = data.data.users;
                 if(data.data.permission === 'admin') {
                     app.users = data.data.users;
                     app.loading = false;
@@ -35,7 +38,7 @@ angular.module('managementController', ['userServices'])
                 app.loading = false
             }
         });
-    };
+    }
     // function to get all the users
     getUsers();
 

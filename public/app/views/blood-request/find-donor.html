@@ -36,7 +36,7 @@
                 </div>
             </div>
 
-            <div class="row" ng-if="bg || status">
+            <div class="row" ng-if="bg || status" onmousedown="return false" onselectstart="return false">
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
@@ -63,7 +63,6 @@
                                         <th>Contact No.</th>
                                         <th>Email</th>
                                         <th>Status</th>
-                                        <th>Report</th>
                                     </tr>
                                     <tr ng-repeat="donor in donors = (findDonor.donors | filter : { bloodGroup : bg , available : status, firstName : searchDonor }) ">
                                         <td>{{ $index + 1 }}.</td>
@@ -80,7 +79,6 @@
                                             <div ng-if="donor.available == 'Yes'" class="badge badge-success">Available</div>
                                             <div ng-if="donor.available == 'No'" class="badge badge-warning">Not Available</div>
                                         </td>
-                                        <td><a href="#" class="btn btn-outline-danger"><i class="fas fa-exclamation-triangle"></i></a></td>
                                     </tr>
                                 </table>
                             </div>

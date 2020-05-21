@@ -163,5 +163,20 @@ angular.module('userServices',[])
         return $http.get('/api/getAllChats/' + chatID);
     };
 
+    /// get all potential donors
+    userFactory.getPotentialDonors = function (requestData) {
+        return $http.post('/api/getPotentialDonors', requestData);
+    };
+
+    // send msg
+    userFactory.sendBloodRequestMsg = function (contact) {
+        return $http.post('/api/sendBloodRequestMsg/' , contact);
+    };
+
+    // get users
+    userFactory.getUsers = function () {
+        return $http.get('/api/getUsers');
+    };
+
     return userFactory;
 });

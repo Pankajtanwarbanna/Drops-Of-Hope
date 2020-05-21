@@ -119,8 +119,6 @@ angular.module('mainController', ['authServices'])
         console.log(data);
         if(data.data.success) {
             app.users = data.data.users;
-        } else {
-            app.errorMsg = data.data.message;
         }
     });
 
@@ -129,8 +127,6 @@ angular.module('mainController', ['authServices'])
         console.log(data);
         if(data.data.success) {
             app.donors = data.data.donors;
-        } else {
-            app.errorMsg = data.data.message;
         }
     });
 
@@ -139,8 +135,6 @@ angular.module('mainController', ['authServices'])
         console.log(data);
         if(data.data.success) {
             app.requests = data.data.requests;
-        } else {
-            app.errorMsg = data.data.message;
         }
     });
 
@@ -149,8 +143,6 @@ angular.module('mainController', ['authServices'])
         console.log(data);
         if(data.data.success) {
             app.openrequests = data.data.openrequests;
-        } else {
-            app.errorMsg = data.data.message;
         }
     });
 
@@ -159,8 +151,6 @@ angular.module('mainController', ['authServices'])
         console.log(data);
         if(data.data.success) {
             app.closedrequests = data.data.closedrequests;
-        } else {
-            app.errorMsg = data.data.message;
         }
     });
 
@@ -169,8 +159,6 @@ angular.module('mainController', ['authServices'])
         console.log(data);
         if(data.data.success) {
             app.doctors = data.data.doctors;
-        } else {
-            app.errorMsg = data.data.message;
         }
     });
 
@@ -179,8 +167,6 @@ angular.module('mainController', ['authServices'])
         console.log(data);
         if(data.data.success) {
             app.yourviews = data.data.yourviews;
-        } else {
-            app.errorMsg = data.data.message;
         }
     });
 
@@ -189,8 +175,6 @@ angular.module('mainController', ['authServices'])
         console.log(data);
         if(data.data.success) {
             app.blogs = data.data.blogs;
-        } else {
-            app.errorMsg = data.data.message;
         }
     });
 

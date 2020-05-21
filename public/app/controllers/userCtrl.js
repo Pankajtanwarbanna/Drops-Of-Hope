@@ -67,12 +67,26 @@ uploadFile.uploadImage($scope.file).then(function (data) {
         //console.log(app.requestData);
         app.loading = true;
 
+        app.bloodGroupObj = {};
+        app.bloodGroupObj.bloodGroup = app.requestData.bloodGroup;
+        //console.log(app.bloodGroupObj);
         // post blood request API
         user.postBloodRequest(app.requestData).then(function (data) {
             console.log(data);
             if(data.data.success) {
                 app.loading = false;
-                app.successMsg = data.data.message;
+                app.successMsg = data.data.message + ' Potential Donors has been notified.';
+
+                // notify via msg
+                console.log(app.bloodGroupObj);
+                user.getPotentialDonors(app.bloodGroupObj).then(function (data) {
+                    console.log(data);
+                    if(data.data.success) {
+                        user.sendBloodRequestMsg(data.data.contact ).then(function (data) {
+                            console.log(data);
+                        })
+                    }
+                })
             } else {
                 app.loading = false;
                 app.errorMsg = data.data.message;

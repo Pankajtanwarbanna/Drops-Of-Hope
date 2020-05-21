@@ -11,20 +11,34 @@
                     <div class="card">
                         <div class="chat">
                             <div class="chat-header clearfix">
-                                <img src="/assets/uploads/{{ chat.consultation.doctors[0].profile_url }}" alt="avatar">
-                                <div class="chat-about">
-                                    <div class="chat-with">Dr. {{ chat.consultation.doctors[0].firstName }} {{ chat.consultation.doctors[0].lastName }}</div>
+                                <img ng-show="main.email == chat.consultation.doctors[0].email" src="/assets/uploads/{{ chat.consultation.author[0].profile_url }}" alt="avatar">
+                                <img ng-show="main.email == chat.consultation.author[0].email" src="/assets/uploads/{{ chat.consultation.doctors[0].profile_url }}" alt="avatar">
+
+                                <div class="chat-about" ng-show="main.email == chat.consultation.doctors[0].email">
+                                    <div class="chat-with">{{ chat.consultation.author[0].firstName }} {{ chat.consultation.doctors[0].lastName }}</div>
                                     <div class="chat-num-messages">#OnlineConsultation</div>
                                 </div>
-                                <div class="align-right">
-                                    <a href="#" class="btn btn-icon btn-danger"><i class="fas fa-power-off"></i></a>
+                                <div class="chat-about" ng-show="main.email == chat.consultation.author[0].email">
+                                    <div class="chat-with">Dr. {{ chat.consultation.doctors[0].firstName }} {{ chat.consultation.author[0].lastName }}</div>
+                                    <div class="chat-num-messages">#OnlineConsultation</div>
                                 </div>
+                                <!--<div class="align-right">
+                                    <a href="#" class="btn btn-icon btn-danger"><i class="fas fa-power-off"></i></a>
+                                </div>-->
                             </div>
                         </div>
                         <div class="chat-box" id="mychatbox">
                             <div class="card-body chat-content" tabindex="2" style="overflow: scroll; outline: none;">
                                 <div ng-repeat="chatting in chat.chats">
-                                    <div class="chat-item chat-left" ng-if="chatting.sender != main.email">
+                                    <div class="chat-item chat-left" ng-show="main.email == chat.consultation.doctors[0].email">
+                                        <img src="assets/uploads/{{ chat.consultation.author[0].profile_url }}">
+                                        <div class="chat-details">
+                                            <div class="chat-text">{{ chatting.message }}</div>
+                                            <div class="chat-time">{{ chatting.timestamp | date : 'dd MMMM, hh:mm a'}}</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="chat-item chat-left" ng-show="main.email == chat.consultation.author[0].email">
                                         <img src="assets/uploads/{{ chat.consultation.doctors[0].profile_url }}">
                                         <div class="chat-details">
                                             <div class="chat-text">{{ chatting.message }}</div>

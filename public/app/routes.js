@@ -64,6 +64,14 @@ var app = angular.module('userRoutes', ['ngRoute'])
                 controllerAs : 'resend'
             })
 
+            .when('/management', {
+                templateUrl : '/app/views/admin/management.html',
+                authenticated : true,
+                controller : 'managementCtrl',
+                controllerAs : 'management'
+            })
+
+
             .when('/forgot', {
                 templateUrl : '/app/views/users/forgot.html',
                 authenticated : false,

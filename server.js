@@ -67,7 +67,7 @@ io.sockets.on('connection', function (socket) {
                 console.log(err);
             } else {
                 //console.log(consult);
-                //consult.chat.push(data.data);
+                consult.chat.push(data.data);
 
                 consult.save(function (err) {
                     if(err) {
